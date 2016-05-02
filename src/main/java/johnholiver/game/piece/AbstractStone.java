@@ -1,5 +1,11 @@
 package johnholiver.game.piece;
 
-public abstract class AbstractStone {
+import johnholiver.game.Player;
+
+public abstract class AbstractStone extends AbstractPiece{
+
+	public AbstractStone(Player owner) {
+		super(owner);
+	}
 
 }

@@ -15,11 +15,11 @@ public class Board {
 		
 		//Board Initialization
 		board = new ArrayList<List<List<AbstractPiece>>>();
-		for (int i=0; i<boardSize; i++)
+		for (int y=0; y<boardSize; y++)
 		{
 			List<List<AbstractPiece>> aRow = new ArrayList<List<AbstractPiece>>();
 			board.add(aRow);
-			for (int j=0; j<boardSize; j++)
+			for (int x=0; x<boardSize; x++)
 			{
 				List<AbstractPiece> aStack = new ArrayList<AbstractPiece>();
 				aRow.add(aStack); 
@@ -35,5 +35,34 @@ public class Board {
 	public void executeMove(AbstractMove move) throws Exception
 	{
 		move.execute();
+	}
+	
+	@Override
+	public String toString()
+	{
+		String boardString = "";
+		int boardSize = board.size();
+		for (int y=0; y<boardSize; y++)
+		{
+			List<List<AbstractPiece>> aRow = board.get(y);
+			String rowString = "";
+			for (int x=0; x<boardSize; x++)
+			{
+				List<AbstractPiece> aStack = aRow.get(x);
+				String stackString = "";
+				for (AbstractPiece piece : aStack)
+				{
+					stackString+=piece.toString();
+					stackString+=",";
+				}
+				if (!stackString.isEmpty())
+					rowString+=stackString.substring(0, stackString.length()-1);
+				rowString+="|";
+			}
+			if (!rowString.isEmpty())
+				boardString+=rowString.substring(0, rowString.length()-1);
+			boardString+="\n";
+		}
+		return boardString;
 	}
 }

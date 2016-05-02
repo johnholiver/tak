@@ -21,5 +21,6 @@ public class Game {
 		activePlayer = player1;
 		
 		board = new Board(boardSize);
+		System.out.print(board.toString());
 	}
 }

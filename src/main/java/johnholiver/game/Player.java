@@ -8,4 +8,8 @@ public class Player {
 		this.number = number;
 	}
 
+	public int getNumber() {
+		return number;
+	}
+
 }
