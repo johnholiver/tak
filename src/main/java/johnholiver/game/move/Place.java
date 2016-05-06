@@ -12,14 +12,16 @@ public class Place extends AbstractMove {
 	}
 
 	@Override
-	public void execute() throws Exception {
+	protected void run() 
+	{
+		board.getSquare(x, y).add(piece);
+	}
+	
+	protected void validate() throws Exception 
+	{
 		List<AbstractPiece> aStack = board.getSquare(x, y);
-		if (aStack.isEmpty())
-		{
-			aStack.add(piece);
-		} else {
-			throw new Exception("Tried to place a piece on a occupied square");
-		}
+		if (!aStack.isEmpty())
+			throw new Exception("Tried to PLACE a piece on a occupied square");
 	}
 
 }

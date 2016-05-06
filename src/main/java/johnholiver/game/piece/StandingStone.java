@@ -8,5 +8,15 @@ public class StandingStone extends AbstractStone {
 		super(owner);
 		this.name = "s";
 	}
+	
+	@Override
+	public boolean isFlat() {
+		return false;
+	}
+
+	@Override
+	public boolean isStanding() {
+		return true;
+	}
 
 }

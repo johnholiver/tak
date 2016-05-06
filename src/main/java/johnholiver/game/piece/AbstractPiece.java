@@ -12,8 +12,19 @@ public abstract class AbstractPiece {
 		this.owner = owner;
 	}
 	
+	public Player getOwner() {
+		return owner;
+	}
+
 	public String toString()
 	{
 		return name+owner.getNumber();
+	}
+
+	public abstract boolean isFlat();
+	public abstract boolean isStanding();
+
+	public boolean isCapstone() {
+		return (isFlat() && isStanding());
 	}
 }

@@ -9,4 +9,18 @@ public class FlatStone extends AbstractStone {
 		this.name = "f";
 	}
 
+	public FlatStone(AbstractPiece piece) {
+		this(piece.getOwner());
+	}
+
+	@Override
+	public boolean isFlat() {
+		return true;
+	}
+
+	@Override
+	public boolean isStanding() {
+		return false;
+	}
+
 }

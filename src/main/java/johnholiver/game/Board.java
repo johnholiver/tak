@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import johnholiver.game.move.AbstractMove;
-import johnholiver.game.piece.AbstractPiece;;
+import johnholiver.game.piece.AbstractPiece;
 
 public class Board {
 	//Matrix of stacks (I need the ability to break a vector 
@@ -36,12 +36,25 @@ public class Board {
 	{
 		move.execute();
 	}
+
+	public int getSize() {
+		return board.size();
+	}
+
+	public boolean isFull() {
+		int boardSize = getSize();
+		for (int y=0; y<boardSize; y++)
+			for (int x=0; x<boardSize; x++)
+				if (getSquare(x, y).isEmpty())
+					return false;
+		return true;
+	}
 	
 	@Override
 	public String toString()
 	{
 		String boardString = "";
-		int boardSize = board.size();
+		int boardSize = getSize();
 		for (int y=0; y<boardSize; y++)
 		{
 			List<List<AbstractPiece>> aRow = board.get(y);
@@ -64,5 +77,58 @@ public class Board {
 			boardString+="\n";
 		}
 		return boardString;
+	}
+
+	public int[] countFlats() {
+		int[] flatCounter = {0,0};
+		int boardSize = getSize();
+		for (int y=0; y<boardSize; y++)
+		{
+			for (int x=0; x<boardSize; x++)
+			{
+				List<AbstractPiece> aStack = getSquare(x, y);
+				AbstractPiece piece = aStack.get(aStack.size()-1);
+				if (piece.isFlat())
+				{
+					if (piece.getOwner().getNumber()==1)
+						flatCounter[0]++;
+					else if (piece.getOwner().getNumber()==2)
+						flatCounter[1]++;
+				}
+			}
+		}
+		return flatCounter;
+	}
+
+	public List<List<AbstractPiece>> getRoads() {
+		//TODO: Road isn't a List<AbstractPiece>, it needs the coordinates of each piece
+		List<List<AbstractPiece>> roads = new ArrayList<List<AbstractPiece>>();
+		int boardSize = getSize();
+		for (int y=0; y<boardSize; y++)
+		{
+			List<AbstractPiece> road = getRoad(0,y);
+			if (road!=null)
+				roads.add(road);
+		}
+		for (int x=0; x<boardSize; x++)
+		{
+			List<AbstractPiece> road = getRoad(x,0);
+			if (road!=null)
+				roads.add(road);
+		}
+		return roads;
+	}
+
+	private List<AbstractPiece> getRoad(int initialX, int initialY) {
+		List<AbstractPiece> initialStack = getSquare(initialX, initialY);
+		AbstractPiece initialPiece;
+		Player roadOwner;
+		if (!initialStack.isEmpty())
+		{
+			initialPiece = initialStack.get(initialStack.size()-1);
+			if (initialPiece.isFlat())
+				roadOwner = initialPiece.getOwner();
+		}
+		return null;
 	}
 }

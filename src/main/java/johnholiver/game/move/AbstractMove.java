@@ -17,6 +17,13 @@ public abstract class AbstractMove
 		this.y = y;
 	}
 
-	public abstract void execute() throws Exception;
+	public final void execute() throws Exception
+	{
+		validate();
+		run();
+	}
+	
+	protected abstract void validate() throws Exception;
+	protected abstract void run();
 
 }

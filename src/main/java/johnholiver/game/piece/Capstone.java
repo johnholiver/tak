@@ -9,4 +9,14 @@ public class Capstone extends AbstractPiece {
 		this.name = "c";
 	}
 
+	@Override
+	public boolean isFlat() {
+		return true;
+	}
+
+	@Override
+	public boolean isStanding() {
+		return true;
+	}
+
 }
