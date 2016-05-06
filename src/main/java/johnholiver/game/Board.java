@@ -101,34 +101,75 @@ public class Board {
 	}
 
 	public List<List<AbstractPiece>> getRoads() {
-		//TODO: Road isn't a List<AbstractPiece>, it needs the coordinates of each piece
 		List<List<AbstractPiece>> roads = new ArrayList<List<AbstractPiece>>();
 		int boardSize = getSize();
+		
+		//Clusterize groups of pieces
 		for (int y=0; y<boardSize; y++)
 		{
-			List<AbstractPiece> road = getRoad(0,y);
-			if (road!=null)
-				roads.add(road);
+			for (int x=0; x<boardSize; x++)
+			{
+				List<AbstractPiece> aStack = this.getSquare(x,y);
+				if (!aStack.isEmpty())
+				{
+					AbstractPiece piece = aStack.get(aStack.size()-1);
+				
+					List<List<AbstractPiece>> roadsToJoin = getAdjacentRoad(roads, piece);
+					List<AbstractPiece> newRoad = new ArrayList<AbstractPiece>();
+					for (List<AbstractPiece> roadToJoin : roadsToJoin)
+					{
+						newRoad.addAll(roadToJoin);
+						roads.remove(roadToJoin);
+					}
+
+					newRoad.add(piece);
+					roads.add(newRoad);	
+				}
+			}
 		}
-		for (int x=0; x<boardSize; x++)
+		
+		//Purge clusters which aren't roads
+		for (List<AbstractPiece> road : roads)
 		{
-			List<AbstractPiece> road = getRoad(x,0);
-			if (road!=null)
-				roads.add(road);
+			boolean firstRow = false;
+			boolean lastRow = false;
+			boolean firstColumn = false;
+			boolean lastColumn = false;
+
+			for (AbstractPiece roadPiece : road)
+			{
+				int[] pieceLocation = roadPiece.getLocation();
+				if (pieceLocation[0] == 0)
+					firstColumn = true;
+				if (pieceLocation[0] == this.getSize()-1)
+					lastColumn = true;
+				if (pieceLocation[1] == 0)
+					firstRow = true;
+				if (pieceLocation[1] == this.getSize()-1)
+					lastRow = true;
+			}
+			
+			if (!((firstRow && lastRow) || (firstColumn && lastColumn)))
+				roads.remove(road);
 		}
 		return roads;
 	}
-
-	private List<AbstractPiece> getRoad(int initialX, int initialY) {
-		List<AbstractPiece> initialStack = getSquare(initialX, initialY);
-		AbstractPiece initialPiece;
-		Player roadOwner;
-		if (!initialStack.isEmpty())
+	
+	private List<List<AbstractPiece>> getAdjacentRoad(List<List<AbstractPiece>> roads, AbstractPiece piece) {
+		List<List<AbstractPiece>> roadsToJoin = new ArrayList<List<AbstractPiece>>();
+		for (List<AbstractPiece> road : roads)
 		{
-			initialPiece = initialStack.get(initialStack.size()-1);
-			if (initialPiece.isFlat())
-				roadOwner = initialPiece.getOwner();
+			for (AbstractPiece roadPiece : road)
+			{
+				if (piece.getOwner()==roadPiece.getOwner()
+					&& piece.isNeighbor(roadPiece))
+				{
+					if (!roadsToJoin.contains(road))
+						roadsToJoin.add(road);
+					break;
+				}
+			}
 		}
-		return null;
+		return roadsToJoin;
 	}
 }

@@ -50,4 +50,15 @@ public abstract class AbstractPiece {
 		int[] location = {locationX, locationY};
 		return location;
 	}
+
+	public boolean isNeighbor(AbstractPiece piece) {
+		int[] pieceLocation = piece.getLocation();
+		if (pieceLocation[0]==this.locationX)
+			if (pieceLocation[1]==this.locationY-1 || pieceLocation[1]==this.locationY+1)
+				return true;
+		if (pieceLocation[1]==this.locationY)
+			if (pieceLocation[0]==this.locationX-1 || pieceLocation[0]==this.locationX+1)
+				return true;		
+		return false;
+	}
 }
