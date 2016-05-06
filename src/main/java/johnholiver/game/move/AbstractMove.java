@@ -23,7 +23,7 @@ public abstract class AbstractMove
 		run();
 	}
 	
-	protected abstract void validate() throws Exception;
+	public abstract void validate() throws Exception;
 	protected abstract void run();
 
 }

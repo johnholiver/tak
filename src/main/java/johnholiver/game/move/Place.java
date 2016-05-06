@@ -14,10 +14,11 @@ public class Place extends AbstractMove {
 	@Override
 	protected void run() 
 	{
+		piece.setLocation(x, y);
 		board.getSquare(x, y).add(piece);
 	}
 	
-	protected void validate() throws Exception 
+	public void validate() throws Exception 
 	{
 		List<AbstractPiece> aStack = board.getSquare(x, y);
 		if (!aStack.isEmpty())

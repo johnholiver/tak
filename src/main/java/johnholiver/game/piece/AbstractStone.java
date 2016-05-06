@@ -8,4 +8,8 @@ public abstract class AbstractStone extends AbstractPiece{
 		super(owner);
 	}
 
+	public AbstractStone(AbstractPiece piece) {
+		super(piece);
+	}
+
 }

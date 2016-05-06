@@ -65,11 +65,15 @@ public class Move extends AbstractMove {
 					topNextStack = new FlatStone(topNextStack);
 				}
 			}
-			nextStack.addAll(piecesToDrop);
+			for (AbstractPiece piece : piecesToDrop)
+			{
+				piece.setLocation(nextX, nextY);
+				nextStack.add(piece);
+			}
 		}
 	}
 
-	protected void validate() throws Exception {
+	public void validate() throws Exception {
 		List<AbstractPiece> initialStack = board.getSquare(x, y);
 		
 		//Test for initial exceptions

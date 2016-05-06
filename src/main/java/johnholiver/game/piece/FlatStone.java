@@ -10,7 +10,7 @@ public class FlatStone extends AbstractStone {
 	}
 
 	public FlatStone(AbstractPiece piece) {
-		this(piece.getOwner());
+		super(piece);
 	}
 
 	@Override
