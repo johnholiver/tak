@@ -12,6 +12,7 @@ public class FlatStone extends AbstractStone {
 
 	public FlatStone(AbstractPiece piece) {
 		super(piece);
+		this.name = "f";
 	}
 
 	@Override

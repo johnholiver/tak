@@ -16,9 +16,9 @@ public class Move extends AbstractMove {
 	}
 	
 	private Direction direction;
-	private ArrayList<Integer> drop;
+	private List<Integer> drop;
 
-	public Move(Board board, AbstractPiece piece, int x, int y, Direction direction, ArrayList<Integer> drop) {
+	public Move(Board board, AbstractPiece piece, int x, int y, Direction direction, List<Integer> drop) {
 		super(board, piece, x, y);
 		this.direction = direction;
 		this.drop = drop;
@@ -40,22 +40,9 @@ public class Move extends AbstractMove {
 			}
 			dropStack.removeAll(piecesToDrop);
 			
-			int nextX = x;
-			int nextY = y;
-			switch (direction) {
-			case UP:
-				nextX+=dropIndex;
-				break;
-			case DOWN:
-				nextX-=dropIndex;
-				break;
-			case LEFT:
-				nextY-=dropIndex;
-				break;
-			case RIGHT:
-				nextY+=dropIndex;
-				break;
-			}
+			int[] nextLocation = getNextStackLocation(x, y, dropIndex);
+			int nextX = nextLocation[0];
+			int nextY = nextLocation[1];
 			
 			List<AbstractPiece> nextStack = board.getSquare(nextX, nextY);
 			if (!nextStack.isEmpty())
@@ -63,7 +50,8 @@ public class Move extends AbstractMove {
 				AbstractPiece topNextStack = nextStack.get(nextStack.size()-1);
 				if (topNextStack.isStanding())
 				{
-					topNextStack = new FlatStone(topNextStack);
+					nextStack.add(new FlatStone(topNextStack));
+					nextStack.remove(topNextStack);
 				}
 			}
 			for (AbstractPiece piece : piecesToDrop)
@@ -103,22 +91,9 @@ public class Move extends AbstractMove {
 			//Test Carry limit
 			if (piecesToDrop.size() > board.getSize())
 				throw new MoveException(x, y, "Piece drop order is not valid. Carry limit of "+board.getSize()+" check at drop "+dropIndex);
-			int nextX = x;
-			int nextY = y;
-			switch (direction) {
-			case UP:
-				nextX+=dropIndex;
-				break;
-			case DOWN:
-				nextX-=dropIndex;
-				break;
-			case LEFT:
-				nextY-=dropIndex;
-				break;
-			case RIGHT:
-				nextY+=dropIndex;
-				break;
-			}
+			int[] nextLocation = getNextStackLocation(x, y, dropIndex);
+			int nextX = nextLocation[0];
+			int nextY = nextLocation[1];
 			if (nextX < 0 
 				|| nextX > board.getSize()-1
 				|| nextY < 0
@@ -144,6 +119,29 @@ public class Move extends AbstractMove {
 				}
 			}
 		}
+		if (totalPiecesDroped != initialStack.size())
+		{
+			throw new MoveException(x, y, "Piece drop order is not valid. Drop order total quantity is inferior to the initial stack");
+		}
+	}
+
+	private int[] getNextStackLocation(int x, int y, int modifier) {
+		int[] nextLocation = {x,y};
+		switch (direction) {
+		case UP:
+			nextLocation[1]+=modifier;
+			break;
+		case DOWN:
+			nextLocation[1]-=modifier;
+			break;
+		case LEFT:
+			nextLocation[0]-=modifier;
+			break;
+		case RIGHT:
+			nextLocation[0]+=modifier;
+			break;
+		}
+		return nextLocation;
 	}
 
 	@Override

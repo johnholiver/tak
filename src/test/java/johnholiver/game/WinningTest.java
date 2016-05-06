@@ -25,6 +25,11 @@ public class WinningTest {
 	}
 	
 	@Test
+	public void flatDrawTest() {
+		fail("Not yet implemented"); // TODO
+	}
+	
+	@Test
 	public void roadTest() {
 		fail("Not yet implemented"); // TODO
 	}
