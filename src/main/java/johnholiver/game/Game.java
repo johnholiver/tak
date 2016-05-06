@@ -19,8 +19,8 @@ public class Game {
 
 	public Game(int boardSize) throws Exception
 	{
-		player1 = new Player(1, getCapstoneSet(boardSize), getStoneSet(boardSize));
-		player2 = new Player(2, getCapstoneSet(boardSize), getStoneSet(boardSize));
+		player1 = new Player(1, "white", getCapstoneSet(boardSize), getStoneSet(boardSize));
+		player2 = new Player(2, "black", getCapstoneSet(boardSize), getStoneSet(boardSize));
 		activePlayer = player1;
 		
 		board = new Board(boardSize);

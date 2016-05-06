@@ -3,6 +3,7 @@ package johnholiver.game.move;
 import java.util.List;
 
 import johnholiver.game.Board;
+import johnholiver.game.move.exceptions.PlaceException;
 import johnholiver.game.piece.AbstractPiece;
 
 public class Place extends AbstractMove {
@@ -20,9 +21,19 @@ public class Place extends AbstractMove {
 	
 	public void validate() throws Exception 
 	{
-		List<AbstractPiece> aStack = board.getSquare(x, y);
-		if (!aStack.isEmpty())
-			throw new Exception("Tried to PLACE a piece on a occupied square");
+		try {
+			List<AbstractPiece> aStack = board.getSquare(x, y);
+			if (!aStack.isEmpty())
+				throw new PlaceException(x, y, "Square already occupied");
+		} catch (IndexOutOfBoundsException e) {
+			throw new PlaceException(x, y, "Out of board bounds");
+		}
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

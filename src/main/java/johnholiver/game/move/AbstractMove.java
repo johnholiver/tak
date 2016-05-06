@@ -26,4 +26,5 @@ public abstract class AbstractMove
 	public abstract void validate() throws Exception;
 	protected abstract void run();
 
+	public abstract String toString();
 }

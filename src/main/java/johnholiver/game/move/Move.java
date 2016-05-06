@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import johnholiver.game.Board;
+import johnholiver.game.move.exceptions.MoveException;
 import johnholiver.game.piece.AbstractPiece;
 import johnholiver.game.piece.FlatStone;
 
@@ -78,11 +79,11 @@ public class Move extends AbstractMove {
 		
 		//Test for initial exceptions
 		if (initialStack.isEmpty())
-			throw new Exception("Tried to MOVE: Initial stack is empty");
+			throw new MoveException(x, y, "Initial stack is empty");
 		if (initialStack.get(initialStack.size()-1) != piece)
-			throw new Exception("Tried to MOVE: Top piece is different from what has been expected: "+piece+"!="+initialStack.get(initialStack.size()-1));
+			throw new MoveException(x, y, "Top piece is different from what has been expected: "+piece+"!="+initialStack.get(initialStack.size()-1));
 		if (drop.isEmpty() || drop.size() < 2)
-			throw new Exception("Tried to MOVE: Piece drop order is not valid. Drop order is empty or inferior to inferior to 2 stacks");
+			throw new MoveException(x, y, "Piece drop order is not valid. Drop order is empty or inferior to inferior to 2 stacks");
 		
 		//Test dropping exceptions
 		int totalPiecesDroped = 0;
@@ -94,14 +95,14 @@ public class Move extends AbstractMove {
 				try {
 					piecesToDrop.add(initialStack.get(i));
 				} catch (ArrayIndexOutOfBoundsException e) {
-					throw new Exception("Tried to MOVE: Piece drop order is not valid. Drop order total quantity is superior to the initial stack");
+					throw new MoveException(x, y, "Piece drop order is not valid. Drop order total quantity is superior to the initial stack");
 				}
 			}
 			totalPiecesDroped+=drop.get(dropIndex);
 			
 			//Test Carry limit
 			if (piecesToDrop.size() > board.getSize())
-				throw new Exception("Tried to MOVE: Piece drop order is not valid. Carry limit of "+board.getSize()+" check at drop "+dropIndex);
+				throw new MoveException(x, y, "Piece drop order is not valid. Carry limit of "+board.getSize()+" check at drop "+dropIndex);
 			int nextX = x;
 			int nextY = y;
 			switch (direction) {
@@ -122,13 +123,13 @@ public class Move extends AbstractMove {
 				|| nextX > board.getSize()-1
 				|| nextY < 0
 				|| nextY > board.getSize()-1)
-				throw new Exception("Tried to MOVE: Piece drop order is not valid for given direction. Board out of bounds: ("+nextX+","+nextY+")");
+				throw new MoveException(x, y, "Piece drop order is not valid for given direction. Board out of bounds: ("+nextX+","+nextY+")");
 			
 			
 			if (piecesToDrop.size() == 0)
 			{
 				if (dropIndex != 0)
-					throw new Exception("Tried to MOVE: Piece drop order is not valid. Dropping 0 pieces at drop "+dropIndex);
+					throw new MoveException(x, y, "Piece drop order is not valid. Dropping 0 pieces at drop "+dropIndex);
 			} else {
 				//Test Insurmountable Pieces
 				List<AbstractPiece> nextStack = board.getSquare(nextX, nextY);
@@ -138,11 +139,17 @@ public class Move extends AbstractMove {
 					if (topNextStack.isCapstone()
 						|| (topNextStack.isStanding() && !piecesToDrop.get(0).isCapstone()))
 					{
-						throw new Exception("Tried to MOVE: Piece drop order is not valid. Insurmountable Pieces at ("+nextX+","+nextY+")");
+						throw new MoveException(x, y, "Piece drop order is not valid. Insurmountable Pieces at ("+nextX+","+nextY+")");
 					}
 				}
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
