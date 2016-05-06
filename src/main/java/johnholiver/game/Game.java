@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import johnholiver.game.exceptions.DrawException;
+import johnholiver.game.exceptions.OutOfStoneException;
 import johnholiver.game.move.AbstractMove;
+import johnholiver.game.move.Move;
+import johnholiver.game.move.Move.Direction;
+import johnholiver.game.move.Place;
 import johnholiver.game.piece.AbstractPiece;
+import johnholiver.game.piece.Capstone;
+import johnholiver.game.piece.FlatStone;
+import johnholiver.game.piece.StandingStone;
 
 public class Game {
 
@@ -15,6 +22,7 @@ public class Game {
 	private Player player2;
 	
 	private Player activePlayer;
+	private Player inactivePlayer;
 	
 	private ArrayList<AbstractMove> turns;
 
@@ -23,12 +31,108 @@ public class Game {
 		player1 = new Player(1, "white", getCapstoneSet(boardSize), getStoneSet(boardSize));
 		player2 = new Player(2, "black", getCapstoneSet(boardSize), getStoneSet(boardSize));
 		activePlayer = player1;
+		inactivePlayer = player2;
 		
 		board = new Board(boardSize);
-		System.out.print(board.toString());
 	}
 	
-	private Player checkWinningConditions() throws DrawException
+	public Player getActivePlayer()
+	{
+		return activePlayer;
+	}
+	
+	private Player getActivePlayerInternal()
+	{
+		if (getTurn()<3)
+			return activePlayer;
+		else
+			return inactivePlayer;
+	}
+	
+	public String getActiveColor()
+	{
+		return getActivePlayerInternal().getColor();
+	}
+	
+	public int getTurn()
+	{
+		return turns.size()+1;
+	}
+	
+	public Board getBoard()
+	{
+		return board;
+	}
+	
+	public boolean doPlace(int x, int y, String newPieceType)
+	{
+		AbstractPiece piece = null;
+		try
+		{
+			switch (newPieceType) {
+			case "f":
+				piece = new FlatStone(getActivePlayerInternal());
+				break;
+			case "s":
+				piece = new StandingStone(getActivePlayerInternal());
+				break;
+			case "c":
+				piece = new Capstone(getActivePlayerInternal());
+				break;
+			}
+		} catch (OutOfStoneException e) {
+			this.atFailure(null, e);
+		}
+		if (piece!=null)
+		{
+			AbstractMove move = new Place(board, piece, x, y);
+			try {
+				board.executeMove(move);
+				this.atSuccess(move);
+				return true;
+			} catch (Exception e) {
+				if (newPieceType.equals("c"))
+					activePlayer.incRemainingCapstone();
+				else
+					activePlayer.incRemainingStone();
+				this.atFailure(move, e);
+			}
+		}
+		return false;
+	}
+	
+	public boolean doMove(int x, int y, Direction direction, List<Integer> drop)
+	{
+		List<AbstractPiece> aStack = board.getSquare(x, y);
+		AbstractPiece aStackTop = aStack.get(aStack.size()-1);
+		if (aStackTop.getOwner() == activePlayer)
+		{
+			AbstractMove move = new Move(board, aStackTop, x, y, direction, drop);
+			try {
+				board.executeMove(move);
+				this.atSuccess(move);
+				return true;
+			} catch (Exception e) {
+				this.atFailure(move, e);
+			}
+		}
+		return false;
+	}
+	
+	private void atSuccess(AbstractMove move) {
+		//Add to successful turns list
+		turns.add(move);
+		//Change player
+		Player aux = activePlayer;
+		activePlayer=inactivePlayer;
+		inactivePlayer=aux;
+	}
+
+	private void atFailure(AbstractMove move, Exception e) {
+		// Do nothing, maybe log
+	}
+	
+	public Player checkWinningConditions() throws DrawException
 	{
 		Player winner = null;
 		winner = checkRoadWinCondition();

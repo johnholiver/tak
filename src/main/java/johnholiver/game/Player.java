@@ -38,6 +38,14 @@ public class Player {
 			throw new OutOfStoneException(this);
 	}
 	
+	public void incRemainingCapstone() {
+		remainingCapstone++;
+	}
+	
+	public void incRemainingStone() {
+		remainingStone++;
+	}
+	
 	public int getRemainingCapstone() {
 		return remainingCapstone;
 	}
