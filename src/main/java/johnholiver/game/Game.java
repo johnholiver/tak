@@ -3,6 +3,7 @@ package johnholiver.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import johnholiver.game.exceptions.DrawException;
 import johnholiver.game.move.AbstractMove;
 import johnholiver.game.piece.AbstractPiece;
 
@@ -27,7 +28,7 @@ public class Game {
 		System.out.print(board.toString());
 	}
 	
-	private Player checkWinningConditions() throws Exception
+	private Player checkWinningConditions() throws DrawException
 	{
 		Player winner = null;
 		winner = checkRoadWinCondition();
@@ -50,7 +51,7 @@ public class Game {
 		return winner;
 	}
 
-	private Player checkFlatWinCondition() throws Exception {
+	private Player checkFlatWinCondition() throws DrawException {
 		boolean fullBoard = board.isFull();
 		boolean outOfPieces = (player1.getRemainingCapstone()+player1.getRemainingStone()==0) && 
 							  (player2.getRemainingCapstone()+player2.getRemainingStone()==0);
@@ -61,7 +62,7 @@ public class Game {
 				return player1;
 			else if (flatCounters[1]>flatCounters[2])
 				return player2;
-			else throw new Exception("Flat counting resulted in a Draw");
+			else throw new DrawException("Flat counting resulted in a Draw");
 		} else
 			return null;
 	}
