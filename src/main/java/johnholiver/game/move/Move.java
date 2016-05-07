@@ -10,10 +10,6 @@ import johnholiver.game.piece.FlatStone;
 
 
 public class Move extends AbstractMove {
-
-	public enum Direction {
-		UP, DOWN, LEFT, RIGHT;
-	}
 	
 	private Direction direction;
 	private List<Integer> drop;

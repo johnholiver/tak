@@ -1,6 +1,8 @@
 package johnholiver.game;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +10,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import johnholiver.game.exceptions.OutOfStoneException;
+import johnholiver.game.move.Direction;
 import johnholiver.game.move.Move;
-import johnholiver.game.move.Move.Direction;
 import johnholiver.game.move.Place;
 import johnholiver.game.move.exceptions.MoveException;
 import johnholiver.game.move.exceptions.PlaceException;
@@ -294,7 +295,6 @@ public class MovementTest {
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
-		List<AbstractPiece> stack = new ArrayList<AbstractPiece>();
 		assertEquals((new FlatStone(p1)).toString(), board.getSquare(0, 0).get(0).toString());
 		assertSame(piece2, board.getSquare(0, 0).get(1));
 	}

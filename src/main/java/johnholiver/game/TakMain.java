@@ -3,8 +3,10 @@ package johnholiver.game;
 import java.awt.print.PrinterAbortException;
 import java.util.Scanner;
 
-import johnholiver.game.notation.PTNParser;
 import johnholiver.game.notation.TPSPrinter;
+import johnholiver.game.notation.exception.ParseException;
+import johnholiver.game.notation.ptn.PTNInterface;
+import johnholiver.game.notation.ptn.PTNLexicalParser;
 
 /**
  * Hello world!
@@ -12,13 +14,13 @@ import johnholiver.game.notation.TPSPrinter;
  */
 public class TakMain {
 	private static Scanner scan;
-	private static PTNParser parser; 
+	private static PTNInterface view; 
 	private static TPSPrinter printer;
 	
 	public static void main(String[] args)
 	{
 		scan = new Scanner(System.in);
-		parser = new PTNParser();
+		view = new PTNInterface();
 		
 		Game activeGame = null;
 		
@@ -47,7 +49,11 @@ public class TakMain {
 				break;
 			default:
 				if (activeGame!=null)
-					parser.parse(input, activeGame);
+					try {
+						view.execute(activeGame, input);
+					} catch (Exception e) {
+						e.getMessage();
+					}
 				break;
 			}
 			System.out.println("=========================");

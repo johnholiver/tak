@@ -7,7 +7,7 @@ import johnholiver.game.exceptions.DrawException;
 import johnholiver.game.exceptions.OutOfStoneException;
 import johnholiver.game.move.AbstractMove;
 import johnholiver.game.move.Move;
-import johnholiver.game.move.Move.Direction;
+import johnholiver.game.move.Direction;
 import johnholiver.game.move.Place;
 import johnholiver.game.piece.AbstractPiece;
 import johnholiver.game.piece.Capstone;
