@@ -202,7 +202,7 @@ public class PTNSyntacticAnalyser {
 			switch (lookAhead.getType()) {
 			case MARK:
 				switch (lookAhead.getContent()) {
-				case "\'":
+				case "'":
 					tak();
 					break;
 				case "!":

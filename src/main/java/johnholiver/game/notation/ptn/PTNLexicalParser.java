@@ -66,12 +66,13 @@ public class PTNLexicalParser {
 				tokenList.add(new DirectionToken(c));
 				break;
 			case '\'':
-				tokenList.add(new MarkToken(c));
 			case '!':
 			case '?':
 				tokenList.add(new MarkToken(c));
+				break;
 			case '{':
 				tokenList.add(getCommentToken());
+				break;
 			default:
 				throw new LexicalException(this.input, this.i);
 			}
