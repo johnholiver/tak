@@ -3,7 +3,7 @@ package johnholiver.game.notation.ptn.token;
 public class SquareToken extends Token {
 
 	public SquareToken(String c) {
-		super(Type.SQUARE, String.valueOf(c));
+		super(TokenType.SQUARE, String.valueOf(c));
 	}
 	
 	public int getX()

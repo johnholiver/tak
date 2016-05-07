@@ -3,21 +3,20 @@ package johnholiver.game.notation.ptn;
 import java.util.ArrayList;
 import java.util.List;
 
-import johnholiver.game.notation.exception.ParseException;
+import johnholiver.game.notation.exception.LexicalException;
 import johnholiver.game.notation.ptn.token.CommentToken;
 import johnholiver.game.notation.ptn.token.CountToken;
 import johnholiver.game.notation.ptn.token.DirectionToken;
 import johnholiver.game.notation.ptn.token.MarkToken;
 import johnholiver.game.notation.ptn.token.SquareToken;
 import johnholiver.game.notation.ptn.token.StoneToken;
-import johnholiver.game.notation.ptn.token.TakToken;
 import johnholiver.game.notation.ptn.token.Token;
 
 public class PTNLexicalParser {
 	private String input;
 	private int i;
 
-	public List<Token> parse(String input) throws ParseException {
+	public List<Token> parse(String input) throws LexicalException {
 		this.input = input;
 		i = 0;
 		return initialState();
@@ -29,7 +28,7 @@ public class PTNLexicalParser {
 		return c;
 	}
 
-	private List<Token> initialState() throws ParseException {
+	private List<Token> initialState() throws LexicalException {
 		List<Token> tokenList = new ArrayList<Token>();
 		for (;i < this.input.length();)
 		{
@@ -67,20 +66,20 @@ public class PTNLexicalParser {
 				tokenList.add(new DirectionToken(c));
 				break;
 			case '\'':
-				tokenList.add(new TakToken(c));
+				tokenList.add(new MarkToken(c));
 			case '!':
 			case '?':
 				tokenList.add(new MarkToken(c));
 			case '{':
 				tokenList.add(getCommentToken());
 			default:
-				throw new ParseException(this.input, this.i);
+				throw new LexicalException(this.input, this.i);
 			}
 		}
 		return tokenList;
 	}
 
-	private Token getSquareToken(char x) throws ParseException {
+	private Token getSquareToken(char x) throws LexicalException {
 		char y = consumeChar();
 		switch (y) {
 		case '1':
@@ -93,11 +92,11 @@ public class PTNLexicalParser {
 		case '8':
 			return new SquareToken(String.valueOf(x)+String.valueOf(y));
 		default:
-			throw new ParseException(this.input, this.i);
+			throw new LexicalException(this.input, this.i);
 		}
 	}
 
-	private Token getCommentToken() throws ParseException {
+	private Token getCommentToken() throws LexicalException {
 		String comment="{";
 		for( ; i < input.length(); ) 
 		{
@@ -108,6 +107,6 @@ public class PTNLexicalParser {
 				return new CommentToken(comment);
 			}
         }
-		throw new ParseException(this.input, this.i, "Couldn't find '}' to close the comment.");
+		throw new LexicalException(this.input, this.i, "Couldn't find '}' to close the comment.");
 	}	
 }

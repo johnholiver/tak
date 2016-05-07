@@ -3,6 +3,10 @@ package johnholiver.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import johnholiver.game.command.Command;
+import johnholiver.game.command.MoveCommand;
+import johnholiver.game.command.PlaceCommand;
+import johnholiver.game.command.Command.CommandType;
 import johnholiver.game.exceptions.DrawException;
 import johnholiver.game.exceptions.OutOfStoneException;
 import johnholiver.game.move.AbstractMove;
@@ -64,19 +68,33 @@ public class Game {
 		return board;
 	}
 	
-	public boolean doPlace(int x, int y, String newPieceType)
+	public boolean doCommand(Command cmd) throws Exception
+	{
+		switch (cmd.getType()) {
+		case GAME_PLACE:
+			PlaceCommand place = (PlaceCommand)cmd; 
+			return doPlace(place.getX(), place.getY(), place.getPieceType());
+		case GAME_MOVE:
+			MoveCommand move = (MoveCommand)cmd;
+			return doMove(move.getX(), move.getY(), move.getDirection(), move.getDrop());
+		default:
+			throw new Exception("Command invalid");
+		}
+	}
+	
+	private boolean doPlace(int x, int y, String newPieceType)
 	{
 		AbstractPiece piece = null;
 		try
 		{
 			switch (newPieceType) {
-			case "f":
+			case "F":
 				piece = new FlatStone(getActivePlayerInternal());
 				break;
-			case "s":
+			case "S":
 				piece = new StandingStone(getActivePlayerInternal());
 				break;
-			case "c":
+			case "C":
 				piece = new Capstone(getActivePlayerInternal());
 				break;
 			}
@@ -101,7 +119,7 @@ public class Game {
 		return false;
 	}
 	
-	public boolean doMove(int x, int y, Direction direction, List<Integer> drop)
+	private boolean doMove(int x, int y, Direction direction, List<Integer> drop)
 	{
 		List<AbstractPiece> aStack = board.getSquare(x, y);
 		AbstractPiece aStackTop = aStack.get(aStack.size()-1);

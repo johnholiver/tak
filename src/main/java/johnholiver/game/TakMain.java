@@ -4,7 +4,6 @@ import java.awt.print.PrinterAbortException;
 import java.util.Scanner;
 
 import johnholiver.game.notation.TPSPrinter;
-import johnholiver.game.notation.exception.ParseException;
 import johnholiver.game.notation.ptn.PTNInterface;
 import johnholiver.game.notation.ptn.PTNLexicalParser;
 

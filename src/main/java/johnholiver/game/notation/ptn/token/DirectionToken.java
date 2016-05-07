@@ -5,7 +5,7 @@ import johnholiver.game.move.Direction;
 public class DirectionToken extends Token {
 
 	public DirectionToken(char c) {
-		super(Type.DIRECTION, String.valueOf(c));
+		super(TokenType.DIRECTION, String.valueOf(c));
 	}
 	
 	public Direction getValue()
