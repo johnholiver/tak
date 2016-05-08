@@ -16,6 +16,7 @@ import johnholiver.game.move.Place;
 import johnholiver.game.piece.AbstractPiece;
 import johnholiver.game.piece.Capstone;
 import johnholiver.game.piece.FlatStone;
+import johnholiver.game.piece.PieceType;
 import johnholiver.game.piece.StandingStone;
 
 public class Game {
@@ -70,62 +71,24 @@ public class Game {
 	
 	public boolean doCommand(AbstractCommand cmd) throws Exception
 	{
+		AbstractMove move = null;
 		switch (cmd.getType()) {
 		case GAME_PLACE:
-			PlaceCommand place = (PlaceCommand)cmd; 
-			return doPlace(place.getX(), place.getY(), place.getPieceType());
+			PlaceCommand placeCmd = (PlaceCommand)cmd; 
+			move = new Place(board, getActivePlayerInternal(),
+					placeCmd.getX(), placeCmd.getY(), placeCmd.getPieceType());
+			break;
 		case GAME_MOVE:
-			MoveCommand move = (MoveCommand)cmd;
-			return doMove(move.getX(), move.getY(), move.getDirection(), move.getDrop());
+			MoveCommand moveCmd = (MoveCommand)cmd;
+			move = new Move(board, getActivePlayerInternal(), 
+					moveCmd.getX(), moveCmd.getY(), moveCmd.getDirection(), moveCmd.getDrop());
+			break;
 		default:
 			throw new Exception("Command invalid");
 		}
-	}
-	
-	private boolean doPlace(int x, int y, String newPieceType)
-	{
-		AbstractPiece piece = null;
-		try
+		
+		if (move!=null)
 		{
-			switch (newPieceType) {
-			case "F":
-				piece = new FlatStone(getActivePlayerInternal());
-				break;
-			case "S":
-				piece = new StandingStone(getActivePlayerInternal());
-				break;
-			case "C":
-				piece = new Capstone(getActivePlayerInternal());
-				break;
-			}
-		} catch (OutOfStoneException e) {
-			this.atFailure(null, e);
-		}
-		if (piece!=null)
-		{
-			AbstractMove move = new Place(board, piece, x, y);
-			try {
-				board.executeMove(move);
-				this.atSuccess(move);
-				return true;
-			} catch (Exception e) {
-				if (newPieceType.equals("c"))
-					activePlayer.incRemainingCapstone();
-				else
-					activePlayer.incRemainingStone();
-				this.atFailure(move, e);
-			}
-		}
-		return false;
-	}
-	
-	private boolean doMove(int x, int y, Direction direction, List<Integer> drop)
-	{
-		List<AbstractPiece> aStack = board.getSquare(x, y);
-		AbstractPiece aStackTop = aStack.get(aStack.size()-1);
-		if (aStackTop.getOwner() == activePlayer)
-		{
-			AbstractMove move = new Move(board, aStackTop, x, y, direction, drop);
 			try {
 				board.executeMove(move);
 				this.atSuccess(move);

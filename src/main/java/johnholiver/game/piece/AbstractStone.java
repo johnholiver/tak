@@ -5,9 +5,8 @@ import johnholiver.game.exceptions.OutOfStoneException;
 
 public abstract class AbstractStone extends AbstractPiece{
 
-	public AbstractStone(Player owner) throws OutOfStoneException {
+	public AbstractStone(Player owner) {
 		super(owner);
-		owner.decRemainingStone();
 	}
 
 	public AbstractStone(AbstractPiece piece) {

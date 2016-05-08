@@ -1,6 +1,11 @@
 package johnholiver.game;
 
 import johnholiver.game.exceptions.OutOfStoneException;
+import johnholiver.game.piece.AbstractPiece;
+import johnholiver.game.piece.Capstone;
+import johnholiver.game.piece.FlatStone;
+import johnholiver.game.piece.PieceType;
+import johnholiver.game.piece.StandingStone;
 
 public class Player {
 	
@@ -56,5 +61,20 @@ public class Player {
 	
 	public String toString() {
 		return "[Player|"+number+","+color+"]";
+	}
+
+	public AbstractPiece popStone(PieceType newPieceType) throws OutOfStoneException {
+		switch (newPieceType) {
+		case FLATSTONE:
+			decRemainingStone();
+			return new FlatStone(this);
+		case STANDINGSTONE:
+			decRemainingStone();
+			return new StandingStone(this);
+		case CAPSTONE:
+			decRemainingCapstone();
+			return new Capstone(this);
+		}
+		return null;
 	}
 }

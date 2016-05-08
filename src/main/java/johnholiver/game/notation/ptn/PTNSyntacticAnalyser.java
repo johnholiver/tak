@@ -155,7 +155,7 @@ public class PTNSyntacticAnalyser {
 	private void buildPlaceCommand() {
 		SquareToken square = (SquareToken)analizedTokenList.get(i-1);
 		StoneToken stone = (StoneToken)analizedTokenList.get(i-2);
-		commands.add(new PlaceCommand(square.getX(), square.getY(), stone.getContent()));
+		commands.add(new PlaceCommand(square.getX(), square.getY(), stone.getValue()));
 	}
 	
 	private List<AbstractToken> fixMove(List<AbstractToken> tokenList)

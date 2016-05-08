@@ -20,7 +20,6 @@ public abstract class AbstractToken {
 		return content;
 	}
 	
-
 	@Override
 	public boolean equals(Object obj) {
 	    if (obj == null) {

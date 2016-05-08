@@ -18,7 +18,7 @@ import johnholiver.game.move.exceptions.PlaceException;
 import johnholiver.game.piece.AbstractPiece;
 import johnholiver.game.piece.Capstone;
 import johnholiver.game.piece.FlatStone;
-import johnholiver.game.piece.StandingStone;
+import johnholiver.game.piece.PieceType;
 
 public class MovementTest {
 
@@ -35,71 +35,72 @@ public class MovementTest {
 
 	@Test 
 	public void simplePlaceTest() throws Exception {
-		AbstractPiece piece = new Capstone(p1);
-		Place move = new Place(board, piece, 0, 0);
+		Place move = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
 		board.executeMove(move);
-		assertSame(piece, board.getSquare(0, 0).get(0));
+		AbstractPiece piece1 = new Capstone(p1);
+		piece1.setLocation(0, 0);
+		assertEquals(piece1, board.getSquare(0, 0).get(0));
 	}
 
 	@Test 
 	public void stackTest() throws Exception {
-		AbstractPiece piece1 = new FlatStone(p1);
-		AbstractPiece piece2 = new FlatStone(p2);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 0, 1);
+		Place move1 = new Place(board, p1, 0, 0,PieceType.FLATSTONE);
+		Place move2 = new Place(board, p2, 0, 1,PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move3 = new Move(board, piece2, 0, 1, Direction.DOWN, drop);
+		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
 		List<AbstractPiece> stack = new ArrayList<AbstractPiece>();
+		AbstractPiece piece1 = new FlatStone(p1);
+		piece1.setLocation(0, 0);
+		AbstractPiece piece2 = new FlatStone(p2);
+		piece2.setLocation(0, 0);
 		stack.add(piece1);
 		stack.add(piece2);
 		for (int i = 0; i < stack.size(); i++)
-			assertSame(stack.get(i), board.getSquare(0, 0).get(i));
+			assertEquals(stack.get(i), board.getSquare(0, 0).get(i));
 	}
 
 	@Test (expected = PlaceException.class)
 	public void placeOccupiedTest() throws Exception {
-		Place move1 = new Place(board, new Capstone(p1), 0, 0);
-		Place move2 = new Place(board, new Capstone(p2), 0, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
+		Place move2 = new Place(board, p2, 0, 0, PieceType.CAPSTONE);
 		board.executeMove(move1);
 		board.executeMove(move2);
 	}
 	
 	@Test (expected = PlaceException.class)
 	public void placeOutOfBoundsTest() throws Exception {
-		Place move = new Place(board, new Capstone(p1), board.getSize(), board.getSize());
+		Place move = new Place(board, p1, board.getSize(), board.getSize(), PieceType.CAPSTONE);
 		board.executeMove(move);
 	}
 
 	@Test 
 	public void moveSimpleTest() throws Exception {
-		AbstractPiece piece1 = new FlatStone(p1);
-		Place move1 = new Place(board, piece1, 0, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move2 = new Move(board, piece1, 0, 0, Direction.UP, drop);
+		Move move2 = new Move(board, p1, 0, 0, Direction.UP, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		List<AbstractPiece> stack = new ArrayList<AbstractPiece>();
+		AbstractPiece piece1 = new FlatStone(p1);
+		piece1.setLocation(0, 1);
 		stack.add(piece1);
 		assertTrue(board.getSquare(0, 0).isEmpty());
 		for (int i = 0; i < stack.size(); i++)
-			assertSame(stack.get(i), board.getSquare(0, 1).get(i));
+			assertEquals(stack.get(i), board.getSquare(0, 1).get(i));
 	}
 	
 	@Test 
 	public void moveStackDropOneTest() throws Exception {
-		AbstractPiece piece1 = new FlatStone(p1);
-		AbstractPiece piece2 = new FlatStone(p1);
-		AbstractPiece piece3 = new FlatStone(p1);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 1, 0);
-		Place move3 = new Place(board, piece3, 2, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
+		Place move2 = new Place(board, p1, 1, 0, PieceType.FLATSTONE);
+		Place move3 = new Place(board, p1, 2, 0, PieceType.FLATSTONE);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
@@ -107,37 +108,41 @@ public class MovementTest {
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move4 = new Move(board, piece1, 0, 0, Direction.RIGHT, drop);
+		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
 		drop.clear();
 		drop.add(1);
 		drop.add(1);
-		Move move5 = new Move(board, piece1, 1, 0, Direction.RIGHT, drop);
+		Move move5 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move5);
 		drop.clear();
 		drop.add(0);
 		drop.add(1);
-		Move move6 = new Move(board, piece2, 1, 0, Direction.RIGHT, drop);
+		Move move6 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move6);
 		drop.clear();
 		drop.add(1);
 		drop.add(1);
 		drop.add(1);
-		Move move7 = new Move(board, piece2, 2, 0, Direction.UP, drop);
+		Move move7 = new Move(board, p1, 2, 0, Direction.UP, drop);
 		board.executeMove(move7);
-		assertSame(piece2, board.getSquare(2, 2).get(0));
-		assertSame(piece1, board.getSquare(2, 1).get(0));
-		assertSame(piece3, board.getSquare(2, 0).get(0));
+		AbstractPiece piece1 = new FlatStone(p1);
+		piece1.setLocation(2, 2);
+		AbstractPiece piece2 = new FlatStone(p1);
+		piece2.setLocation(2, 1);
+		AbstractPiece piece3 = new FlatStone(p1);
+		piece3.setLocation(2, 0);
+		
+		assertEquals(piece1, board.getSquare(2, 2).get(0));
+		assertEquals(piece2, board.getSquare(2, 1).get(0));
+		assertEquals(piece3, board.getSquare(2, 0).get(0));
 	}
 	
 	@Test 
 	public void moveStackDropRandomTest() throws Exception {
-		AbstractPiece piece1 = new FlatStone(p1);
-		AbstractPiece piece2 = new FlatStone(p1);
-		AbstractPiece piece3 = new FlatStone(p1);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 1, 0);
-		Place move3 = new Place(board, piece3, 2, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
+		Place move2 = new Place(board, p1, 1, 0, PieceType.FLATSTONE);
+		Place move3 = new Place(board, p1, 2, 0, PieceType.FLATSTONE);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
@@ -145,37 +150,40 @@ public class MovementTest {
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move4 = new Move(board, piece1, 0, 0, Direction.RIGHT, drop);
+		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
 		drop.clear();
 		drop.add(1);
 		drop.add(1);
-		Move move5 = new Move(board, piece1, 1, 0, Direction.RIGHT, drop);
+		Move move5 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move5);
 		drop.clear();
 		drop.add(0);
 		drop.add(1);
-		Move move6 = new Move(board, piece2, 1, 0, Direction.RIGHT, drop);
+		Move move6 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move6);
 		drop.clear();
 		drop.add(0);
 		drop.add(2);
 		drop.add(1);
-		Move move7 = new Move(board, piece2, 2, 0, Direction.UP, drop);
+		Move move7 = new Move(board, p1, 2, 0, Direction.UP, drop);
 		board.executeMove(move7);
-		assertSame(piece3, board.getSquare(2, 1).get(0));
-		assertSame(piece1, board.getSquare(2, 1).get(1));
-		assertSame(piece2, board.getSquare(2, 2).get(0));
+		AbstractPiece piece1 = new FlatStone(p1);
+		piece1.setLocation(2, 1);
+		AbstractPiece piece2 = new FlatStone(p1);
+		piece2.setLocation(2, 1);
+		AbstractPiece piece3 = new FlatStone(p1);
+		piece3.setLocation(2, 2);
+		assertEquals(piece1, board.getSquare(2, 1).get(0));
+		assertEquals(piece2, board.getSquare(2, 1).get(1));
+		assertEquals(piece3, board.getSquare(2, 2).get(0));
 	}
 	
 	@Test (expected = MoveException.class)
 	public void moveStackNonCaptstoneOverStandingTest() throws Exception {
-		AbstractPiece piece1 = new Capstone(p1);
-		AbstractPiece piece2 = new FlatStone(p1);
-		AbstractPiece piece3 = new StandingStone(p1);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 1, 0);
-		Place move3 = new Place(board, piece3, 2, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
+		Place move2 = new Place(board, p1, 1, 0, PieceType.FLATSTONE);
+		Place move3 = new Place(board, p1, 2, 0, PieceType.STANDINGSTONE);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
@@ -183,85 +191,85 @@ public class MovementTest {
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move4 = new Move(board, piece1, 0, 0, Direction.RIGHT, drop);
+		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
 		drop.clear();
 		drop.add(0);
 		drop.add(2);
-		Move move5 = new Move(board, piece1, 1, 0, Direction.RIGHT, drop);
+		Move move5 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move5);
 	}
 	
 	@Test (expected = MoveException.class)
 	public void moveOutOfBoundsTest() throws Exception {
-		AbstractPiece piece1 = new StandingStone(p1);
-		Place move1 = new Place(board, piece1, 0, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move2 = new Move(board, piece1, 0, 0, Direction.DOWN, drop);
+		Move move2 = new Move(board, p1, 0, 0, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 	}
 	
 	@Test (expected = MoveException.class)
 	public void moveSkipDropTest() throws Exception {
-		AbstractPiece piece1 = new StandingStone(p1);
-		AbstractPiece piece2 = new FlatStone(p2);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 0, 2);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
+		Place move2 = new Place(board, p2, 0, 2, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(0);
 		drop.add(1);
-		Move move3 = new Move(board, piece2, 0, 2, Direction.DOWN, drop);
+		Move move3 = new Move(board, p2, 0, 2, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
 	}
 	
 	@Test (expected = MoveException.class)
+	public void moveNotOwnerTest() throws Exception {
+		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
+		List<Integer> drop = new ArrayList<Integer>();
+		drop.add(0);
+		drop.add(1);
+		Move move2 = new Move(board, p2, 0, 0, Direction.DOWN, drop);
+		board.executeMove(move1);
+		board.executeMove(move2);
+	}
+	
+	@Test (expected = MoveException.class)
 	public void moveCarryLimitTest() throws Exception {
-		AbstractPiece piece1 = new FlatStone(p1);
-		Place move1 = new Place(board, piece1, 0, 0);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
 		board.executeMove(move1);
 
-		AbstractPiece piece2 = null;
 		for (int i = 0; i < board.getSize(); i++)
 		{
 			//Add
-			piece2 = new FlatStone(p1);
-			Place move2 = new Place(board, piece2, 1, 0);
+			Place move2 = new Place(board, p1, 1, 0, PieceType.FLATSTONE);
 			board.executeMove(move2);
 			//Move
 			List<Integer> drop = new ArrayList<Integer>();
 			drop.add(0);
 			drop.add(1);
-			Move move3 = new Move(board, piece2, 1, 0, Direction.LEFT, drop);
+			Move move3 = new Move(board, p1, 1, 0, Direction.LEFT, drop);
 			board.executeMove(move3);
 		}
 
 		//Carry Limit
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
-		drop.add(4);
-		if (piece2!=null)
-		{
-			Move move4 = new Move(board, piece2, 0, 0, Direction.RIGHT, drop);
-			board.executeMove(move4);
-		}
+		drop.add(board.getSize()+1);
+		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
+		board.executeMove(move4);
 	}
 	
 	@Test (expected = MoveException.class)
 	public void moveInsurmountablePieceFlatToStandingTest() throws Exception {
-		AbstractPiece piece1 = new StandingStone(p1);
-		AbstractPiece piece2 = new FlatStone(p2);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 0, 1);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
+		Place move2 = new Place(board, p2, 0, 1, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move3 = new Move(board, piece2, 0, 1, Direction.DOWN, drop);
+		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
@@ -269,14 +277,12 @@ public class MovementTest {
 	
 	@Test (expected = MoveException.class)
 	public void moveInsurmountablePieceFlatToCapTest() throws Exception {
-		AbstractPiece piece1 = new Capstone(p1);
-		AbstractPiece piece2 = new FlatStone(p2);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 0, 1);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
+		Place move2 = new Place(board, p2, 0, 1, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move3 = new Move(board, piece2, 0, 1, Direction.DOWN, drop);
+		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
@@ -284,31 +290,31 @@ public class MovementTest {
 	
 	@Test
 	public void moveInsurmountablePieceCapToStandingTest() throws Exception {
-		AbstractPiece piece1 = new StandingStone(p1);
-		AbstractPiece piece2 = new Capstone(p2);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 0, 1);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
+		Place move2 = new Place(board, p2, 0, 1, PieceType.CAPSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move3 = new Move(board, piece2, 0, 1, Direction.DOWN, drop);
+		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);
-		assertEquals((new FlatStone(p1)).toString(), board.getSquare(0, 0).get(0).toString());
-		assertSame(piece2, board.getSquare(0, 0).get(1));
+		AbstractPiece piece1 = new FlatStone(p1);
+		piece1.setLocation(0, 0);
+		AbstractPiece piece2 = new Capstone(p2);
+		piece2.setLocation(0, 0);
+		assertEquals(piece1, board.getSquare(0, 0).get(0));
+		assertEquals(piece2, board.getSquare(0, 0).get(1));
 	}
 	
 	@Test (expected = MoveException.class)
 	public void moveInsurmountablePieceCapToCapTest() throws Exception {
-		AbstractPiece piece1 = new Capstone(p1);
-		AbstractPiece piece2 = new Capstone(p2);
-		Place move1 = new Place(board, piece1, 0, 0);
-		Place move2 = new Place(board, piece2, 0, 1);
+		Place move1 = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
+		Place move2 = new Place(board, p2, 0, 1, PieceType.CAPSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
 		drop.add(1);
-		Move move3 = new Move(board, piece2, 0, 1, Direction.DOWN, drop);
+		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
 		board.executeMove(move2);
 		board.executeMove(move3);

@@ -1,15 +1,17 @@
 package johnholiver.game.command;
 
+import johnholiver.game.piece.PieceType;
+
 public class PlaceCommand extends GameCommand {
 
-	private String pieceType;
+	private PieceType pieceType;
 
-	public PlaceCommand(int x, int y, String pieceType) {
+	public PlaceCommand(int x, int y, PieceType pieceType) {
 		super(CommandType.GAME_PLACE, x, y);
 		this.pieceType = pieceType;
 	}
 
-	public String getPieceType() {
+	public PieceType getPieceType() {
 		return pieceType;
 	}
 

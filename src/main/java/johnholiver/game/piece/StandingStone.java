@@ -5,9 +5,9 @@ import johnholiver.game.exceptions.OutOfStoneException;
 
 public class StandingStone extends AbstractStone {
 
-	public StandingStone(Player owner) throws OutOfStoneException {
+	public StandingStone(Player owner) {
 		super(owner);
-		this.name = "s";
+		this.type = PieceType.STANDINGSTONE;
 	}
 	
 	@Override

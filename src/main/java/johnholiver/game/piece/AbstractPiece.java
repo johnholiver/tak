@@ -5,7 +5,7 @@ import johnholiver.game.Player;
 public abstract class AbstractPiece {
 	
 	protected Player owner;
-	protected String name;
+	protected PieceType type;
 	protected int locationX;
 	protected int locationY;
 	
@@ -16,9 +16,11 @@ public abstract class AbstractPiece {
 		locationY = -1;
 	}
 	
+	//Copy constructor
 	public AbstractPiece(AbstractPiece piece)
 	{
 		this.owner = piece.getOwner();
+		this.type = piece.type;
 		this.locationX = piece.getLocation()[0];
 		this.locationY = piece.getLocation()[1];
 	}
@@ -26,11 +28,49 @@ public abstract class AbstractPiece {
 	public Player getOwner() {
 		return owner;
 	}
+	
+	public int[] getLocation()
+	{
+		int[] location = {locationX, locationY};
+		return location;
+	}
+	
+	public void setLocation(int x, int y)
+	{
+		this.locationX = x;
+		this.locationY = y;
+	}
 
+	@Override
 	public String toString()
 	{
-		return name+owner.getNumber();
+		return "[Piece|"+type.name()+","+owner+"]";
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!AbstractPiece.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final AbstractPiece other = (AbstractPiece) obj;
+	    if ((this.owner == null) ? (other.owner != null) : !this.owner.equals(other.owner)) {
+	        return false;
+	    }
+	    if ((this.type == null) ? (other.type != null) : !this.type.equals(other.type)) {
+	        return false;
+	    }
+	    if (this.locationX != other.locationX) {
+	        return false;
+	    }
+	    if (this.locationY != other.locationY) {
+	        return false;
+	    }
+	    return true;
+	}
+
 
 	public abstract boolean isFlat();
 	public abstract boolean isStanding();
@@ -39,18 +79,6 @@ public abstract class AbstractPiece {
 		return (isFlat() && isStanding());
 	}
 	
-	public void setLocation(int x, int y)
-	{
-		this.locationX = x;
-		this.locationY = y;
-	}
-	
-	public int[] getLocation()
-	{
-		int[] location = {locationX, locationY};
-		return location;
-	}
-
 	public boolean isNeighbor(AbstractPiece piece) {
 		int[] pieceLocation = piece.getLocation();
 		if (pieceLocation[0]==this.locationX)

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import johnholiver.game.Board;
+import johnholiver.game.Player;
 import johnholiver.game.move.exceptions.MoveException;
 import johnholiver.game.piece.AbstractPiece;
 import johnholiver.game.piece.FlatStone;
@@ -14,8 +15,8 @@ public class Move extends AbstractMove {
 	private Direction direction;
 	private List<Integer> drop;
 
-	public Move(Board board, AbstractPiece piece, int x, int y, Direction direction, List<Integer> drop) {
-		super(board, piece, x, y);
+	public Move(Board board, Player player, int x, int y, Direction direction, List<Integer> drop) {
+		super(board, player, x, y);
 		this.direction = direction;
 		this.drop = drop;
 	}
@@ -32,9 +33,8 @@ public class Move extends AbstractMove {
 			List<AbstractPiece> piecesToDrop = new ArrayList<AbstractPiece>();
 			for (int i = 0; i < drop.get(dropIndex); i++)
 			{
-				piecesToDrop.add(dropStack.get(i));
+				piecesToDrop.add(dropStack.remove(0));
 			}
-			dropStack.removeAll(piecesToDrop);
 			
 			int[] nextLocation = getNextStackLocation(x, y, dropIndex);
 			int nextX = nextLocation[0];
@@ -64,8 +64,8 @@ public class Move extends AbstractMove {
 		//Test for initial exceptions
 		if (initialStack.isEmpty())
 			throw new MoveException(x, y, "Initial stack is empty");
-		if (initialStack.get(initialStack.size()-1) != piece)
-			throw new MoveException(x, y, "Top piece is different from what has been expected: "+piece+"!="+initialStack.get(initialStack.size()-1));
+		if (initialStack.get(initialStack.size()-1).getOwner() != player)
+			throw new MoveException(x, y, "Top piece does not belong to player: "+initialStack.get(initialStack.size()-1).getOwner()+"!="+player);
 		if (drop.isEmpty() || drop.size() < 2)
 			throw new MoveException(x, y, "Piece drop order is not valid. Drop order is empty or inferior to inferior to 2 stacks");
 		
@@ -144,6 +144,16 @@ public class Move extends AbstractMove {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected void atSuccess() {
+		//Do nothing
+	}
+
+	@Override
+	protected void atFailure() {
+		//Do nothing	
 	}
 
 }

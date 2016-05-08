@@ -5,14 +5,14 @@ import johnholiver.game.exceptions.OutOfStoneException;
 
 public class FlatStone extends AbstractStone {
 
-	public FlatStone(Player owner) throws OutOfStoneException {
+	public FlatStone(Player owner) {
 		super(owner);
-		this.name = "f";
+		this.type = PieceType.FLATSTONE;
 	}
 
 	public FlatStone(AbstractPiece piece) {
 		super(piece);
-		this.name = "f";
+		this.type = PieceType.FLATSTONE;
 	}
 
 	@Override
