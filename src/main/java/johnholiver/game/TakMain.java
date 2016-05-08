@@ -30,12 +30,15 @@ public class TakMain {
 		{
 			switch (input) {
 			case "NEW":
+				System.out.println("Select a board size [3-8]:");
+				String boardSizeInput = scan.nextLine().trim();
 				try {
-					activeGame = new Game(3);
+					activeGame = new Game(Integer.parseInt(boardSizeInput));
 					printer = new TPSPrinter(activeGame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				System.out.println("======== GAME ON ========");
 				break;
 			case "HELP":
 				help();
