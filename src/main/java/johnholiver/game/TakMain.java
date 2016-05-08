@@ -18,6 +18,7 @@ public class TakMain {
 	{
 		scan = new Scanner(System.in);
 		view = new PTNInterface();
+		printer = new TPSPrinter();
 		
 		Game activeGame = null;
 		
@@ -34,7 +35,6 @@ public class TakMain {
 				String boardSizeInput = scan.nextLine().trim();
 				try {
 					activeGame = new Game(Integer.parseInt(boardSizeInput));
-					printer = new TPSPrinter(activeGame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,16 +44,30 @@ public class TakMain {
 				help();
 				break;
 			case "PRINT":
-				if (printer!=null)
-					printer.print();
+				if (activeGame!=null)
+					printer.print(activeGame);
+				else
+					System.out.println("No active game");
 				break;
 			default:
 				if (activeGame!=null)
+				{
 					try {
 						view.execute(activeGame, input);
+						Player winner = activeGame.checkWinningConditions();
+						if (winner!=null)
+						{
+							System.out.println("======= GAME OVER =======");
+							System.out.println("Winner: "+winner);
+							activeGame = null;
+							
+						}
 					} catch (Exception e) {
 						e.getMessage();
 					}
+				} else {
+					System.out.println("No active game");
+				}
 				break;
 			}
 			System.out.println("=========================");
