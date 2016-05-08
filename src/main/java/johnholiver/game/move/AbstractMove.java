@@ -2,7 +2,6 @@ package johnholiver.game.move;
 
 import johnholiver.game.Board;
 import johnholiver.game.Player;
-import johnholiver.game.piece.AbstractPiece;
 
 public abstract class AbstractMove 
 {

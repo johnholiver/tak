@@ -2,6 +2,7 @@ package johnholiver.game.exceptions;
 
 import johnholiver.game.Player;
 
+@SuppressWarnings("serial")
 public class OutOfStoneException extends Exception {
 
 	public OutOfStoneException(Player p) {

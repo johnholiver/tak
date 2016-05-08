@@ -6,18 +6,11 @@ import java.util.List;
 import johnholiver.game.command.AbstractCommand;
 import johnholiver.game.command.MoveCommand;
 import johnholiver.game.command.PlaceCommand;
-import johnholiver.game.command.AbstractCommand.CommandType;
 import johnholiver.game.exceptions.DrawException;
-import johnholiver.game.exceptions.OutOfStoneException;
 import johnholiver.game.move.AbstractMove;
 import johnholiver.game.move.Move;
-import johnholiver.game.move.Direction;
 import johnholiver.game.move.Place;
 import johnholiver.game.piece.AbstractPiece;
-import johnholiver.game.piece.Capstone;
-import johnholiver.game.piece.FlatStone;
-import johnholiver.game.piece.PieceType;
-import johnholiver.game.piece.StandingStone;
 
 public class Game {
 
@@ -29,18 +22,43 @@ public class Game {
 	private Player activePlayer;
 	private Player inactivePlayer;
 	
-	private ArrayList<AbstractMove> turns;
+	private List<AbstractMove> turns;
 
+	protected Game()
+	{
+		turns = new ArrayList<AbstractMove>();
+	}
+	
 	public Game(int boardSize) throws Exception
 	{
-		player1 = new Player(1, "white", getCapstoneSet(boardSize), getStoneSet(boardSize));
-		player2 = new Player(2, "black", getCapstoneSet(boardSize), getStoneSet(boardSize));
-		activePlayer = player1;
-		inactivePlayer = player2;
+		this();
+		this.player1 = new Player(1, "white", getCapstoneSet(boardSize), getStoneSet(boardSize));
+		this.player2 = new Player(2, "black", getCapstoneSet(boardSize), getStoneSet(boardSize));
+		activePlayer = this.player1;
+		inactivePlayer = this.player2;
 		
 		board = new Board(boardSize);
 	}
 	
+	public Game(int boardSize, Player player1, Player player2) throws Exception
+	{
+		this();
+		this.player1 = player1;
+		this.player2 = player2;
+		activePlayer = this.player1;
+		inactivePlayer = this.player2;
+		
+		board = new Board(boardSize);
+	}
+
+	public Player getPlayer1() {
+		return player1;
+	}
+	
+	public Player getPlayer2() {
+		return player2;
+	}
+
 	public Player getActivePlayer()
 	{
 		return activePlayer;
@@ -48,7 +66,7 @@ public class Game {
 	
 	private Player getActivePlayerInternal()
 	{
-		if (getTurn()<3)
+		if (getTurn()>=3)
 			return activePlayer;
 		else
 			return inactivePlayer;
@@ -145,7 +163,7 @@ public class Game {
 			int[] flatCounters = board.countFlats();
 			if (flatCounters[0]>flatCounters[1])
 				return player1;
-			else if (flatCounters[1]>flatCounters[2])
+			else if (flatCounters[1]>flatCounters[0])
 				return player2;
 			else throw new DrawException("Flat counting resulted in a Draw");
 		} else

@@ -1,7 +1,6 @@
 package johnholiver.game.piece;
 
 import johnholiver.game.Player;
-import johnholiver.game.exceptions.OutOfStoneException;
 
 public abstract class AbstractStone extends AbstractPiece{
 

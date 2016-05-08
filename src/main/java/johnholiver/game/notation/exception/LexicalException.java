@@ -1,5 +1,6 @@
 package johnholiver.game.notation.exception;
 
+@SuppressWarnings("serial")
 public class LexicalException extends Exception {
 
 	public LexicalException(String input, int i, String message) {

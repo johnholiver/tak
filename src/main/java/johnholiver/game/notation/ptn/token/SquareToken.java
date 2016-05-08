@@ -31,7 +31,7 @@ public class SquareToken extends AbstractToken {
 	
 	public int getY()
 	{
-		return this.content.charAt(1);
+		return Integer.parseInt(this.content.substring(1))-1;
 	}
 
 }

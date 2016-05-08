@@ -25,4 +25,19 @@ public class InfoCommand extends AbstractCommand {
 	public String getContent() {
 		return content;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!InfoCommand.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final InfoCommand other = (InfoCommand) obj;
+	    if ((this.content == null) ? (other.content != null) : !this.content.equals(other.content)) {
+	        return false;
+	    }
+	    return true && super.equals(obj);
+	}
 }

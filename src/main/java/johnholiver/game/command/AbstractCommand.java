@@ -10,7 +10,7 @@ public abstract class AbstractCommand {
         INFO_COMMENT;
     }
 	
-	private CommandType type;
+	protected CommandType type;
 
 	protected AbstractCommand() { }
 	
@@ -19,12 +19,29 @@ public abstract class AbstractCommand {
 		this.type = type;
 	}
 
-	public CommandType getType() {
+	public CommandType getType() 
+	{
 		return type;
 	}
 	
-	protected void setType(CommandType type) {
+	protected void setType(CommandType type) 
+	{
 		this.type = type;
 	}
 
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (obj == null) {
+	        return false;
+	    }
+	    if (!AbstractCommand.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final AbstractCommand other = (AbstractCommand) obj;
+	    if ((this.type == null) ? (other.type != null) : !this.type.equals(other.type)) {
+	        return false;
+	    }
+	    return true;
+	}
 }

@@ -59,10 +59,6 @@ public class Player {
 		return remainingStone;
 	}
 	
-	public String toString() {
-		return "[Player|"+number+","+color+"]";
-	}
-
 	public AbstractPiece popStone(PieceType newPieceType) throws OutOfStoneException {
 		switch (newPieceType) {
 		case FLATSTONE:
@@ -77,4 +73,28 @@ public class Player {
 		}
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "[Player|"+number+","+color+"]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!Player.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final Player other = (Player) obj;
+	    if ((this.color == null) ? (other.color != null) : !this.color.equals(other.color)) {
+	        return false;
+	    }
+	    if (this.number != other.number) {
+	        return false;
+	    }
+	    return true;
+	}
+
 }

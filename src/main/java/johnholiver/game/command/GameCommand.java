@@ -1,7 +1,5 @@
 package johnholiver.game.command;
 
-import johnholiver.game.command.AbstractCommand.CommandType;
-
 public abstract class GameCommand extends AbstractCommand {
 
 	private int x;
@@ -22,6 +20,24 @@ public abstract class GameCommand extends AbstractCommand {
 	public int getY()
 	{
 		return y;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!GameCommand.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final GameCommand other = (GameCommand) obj;
+	    if (this.x != other.x) {
+	        return false;
+	    }
+	    if (this.y != other.y) {
+	        return false;
+	    }
+	    return true && super.equals(obj);
 	}
 
 }

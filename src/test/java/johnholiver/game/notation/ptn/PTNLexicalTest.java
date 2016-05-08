@@ -1,21 +1,20 @@
 package johnholiver.game.notation.ptn;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import johnholiver.game.move.Direction;
 import johnholiver.game.notation.exception.LexicalException;
+import johnholiver.game.notation.ptn.token.AbstractToken;
 import johnholiver.game.notation.ptn.token.CommentToken;
 import johnholiver.game.notation.ptn.token.CountToken;
 import johnholiver.game.notation.ptn.token.DirectionToken;
 import johnholiver.game.notation.ptn.token.MarkToken;
 import johnholiver.game.notation.ptn.token.SquareToken;
 import johnholiver.game.notation.ptn.token.StoneToken;
-import johnholiver.game.notation.ptn.token.AbstractToken;
 
 public class PTNLexicalTest {
 	
@@ -106,6 +105,6 @@ public class PTNLexicalTest {
 	
 	@Test (expected = LexicalException.class)
 	public void marksException() throws LexicalException {
-		List<AbstractToken> tokenList = lexical.parse("a1'!?(wow)");
+		lexical.parse("a1'!?(wow)");
 	}
 }

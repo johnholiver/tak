@@ -2,19 +2,18 @@ package johnholiver.game.notation.ptn;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import johnholiver.game.command.AbstractCommand;
 import johnholiver.game.command.InfoCommand;
 import johnholiver.game.command.MoveCommand;
 import johnholiver.game.command.PlaceCommand;
 import johnholiver.game.notation.exception.SyntacticException;
+import johnholiver.game.notation.ptn.token.AbstractToken;
+import johnholiver.game.notation.ptn.token.AbstractToken.TokenType;
 import johnholiver.game.notation.ptn.token.CountToken;
 import johnholiver.game.notation.ptn.token.DirectionToken;
 import johnholiver.game.notation.ptn.token.SquareToken;
 import johnholiver.game.notation.ptn.token.StoneToken;
-import johnholiver.game.notation.ptn.token.AbstractToken;
-import johnholiver.game.notation.ptn.token.AbstractToken.TokenType;
 
 public class PTNSyntacticAnalyser {
 
@@ -129,9 +128,13 @@ public class PTNSyntacticAnalyser {
 	
 	private void count_square_direction_count() throws SyntacticException {
 		updateLookAhead();
-		if (lookAhead != null && lookAhead.getType()==TokenType.STONE)
-			count_square_direction_count_stone();
-		else {
+		if (lookAhead != null && (lookAhead.getType() == TokenType.STONE || lookAhead.getType() == TokenType.COUNT)) 
+		{
+			if (lookAhead.getType() == TokenType.STONE) 
+				count_square_direction_count_stone();
+			else if (lookAhead.getType() == TokenType.COUNT)
+				count_square_direction_count();
+		} else {
 			analizedTokenList = fixMove(analizedTokenList);
 			buildMoveCommand();
 			markInitialState();
@@ -148,6 +151,7 @@ public class PTNSyntacticAnalyser {
 	{
 		List<AbstractToken> fixedTokenList = new ArrayList<AbstractToken>();
 		fixedTokenList.add(new StoneToken('F'));
+		i++;
 		fixedTokenList.addAll(tokenList);
 		return fixedTokenList;
 	}
@@ -162,17 +166,23 @@ public class PTNSyntacticAnalyser {
 	{
 		List<AbstractToken> fixedTokenList = new ArrayList<AbstractToken>();
 		if (tokenList.get(0).getType()==TokenType.SQUARE)
+		{
 			fixedTokenList.add(new CountToken('1'));
+			i++;
+		}
 		fixedTokenList.addAll(tokenList);
 		if (fixedTokenList.get(fixedTokenList.size()-1).getType()==TokenType.DIRECTION)
 		{
 			fixedTokenList.add(new CountToken('0'));
+			i++;
 			CountToken first = (CountToken)fixedTokenList.get(0);
-			fixedTokenList.add(new CountToken((char)first.getValue()));
+			fixedTokenList.add(new CountToken(Character.forDigit(first.getValue(), 10)));
+			i++;
 		}
 		if (fixedTokenList.get(fixedTokenList.size()-1).getType()==TokenType.COUNT)
 		{
 			fixedTokenList.add(new StoneToken('F'));
+			i++;
 		}
 		return fixedTokenList;
 	}

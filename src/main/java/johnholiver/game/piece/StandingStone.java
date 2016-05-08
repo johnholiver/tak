@@ -1,7 +1,6 @@
 package johnholiver.game.piece;
 
 import johnholiver.game.Player;
-import johnholiver.game.exceptions.OutOfStoneException;
 
 public class StandingStone extends AbstractStone {
 

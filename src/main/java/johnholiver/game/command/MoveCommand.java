@@ -22,5 +22,21 @@ public class MoveCommand extends GameCommand {
 	public List<Integer> getDrop() {
 		return drop;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!MoveCommand.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final MoveCommand other = (MoveCommand) obj;
+	    if ((this.direction == null) ? (other.direction != null) : !this.direction.equals(other.direction)) {
+	        return false;
+	    }
+	    //TODO: drop
+	    return true && super.equals(obj);
+	}
 
 }

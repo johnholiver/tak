@@ -1,11 +1,9 @@
 package johnholiver.game;
 
-import java.awt.print.PrinterAbortException;
 import java.util.Scanner;
 
 import johnholiver.game.notation.TPSPrinter;
 import johnholiver.game.notation.ptn.PTNInterface;
-import johnholiver.game.notation.ptn.PTNLexicalParser;
 
 /**
  * Hello world!
@@ -34,7 +32,7 @@ public class TakMain {
 			case "NEW":
 				try {
 					activeGame = new Game(3);
-					printer = new TPSPrinter(activeGame.getBoard());
+					printer = new TPSPrinter(activeGame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

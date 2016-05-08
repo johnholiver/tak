@@ -1,13 +1,10 @@
 package johnholiver.game;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import johnholiver.game.exceptions.OutOfStoneException;
-import johnholiver.game.piece.Capstone;
-import johnholiver.game.piece.FlatStone;
+import johnholiver.game.piece.PieceType;
 
 public class PlayerTest {
 
@@ -20,13 +17,13 @@ public class PlayerTest {
 	
 	@Test (expected = OutOfStoneException.class)
 	public void stoneTest() throws OutOfStoneException {
-		FlatStone piece1 = new FlatStone(p);
-		FlatStone piece2 = new FlatStone(p);
+		p.popStone(PieceType.FLATSTONE);
+		p.popStone(PieceType.STANDINGSTONE);
 	}
 
 	@Test (expected = OutOfStoneException.class)
 	public void capstoneTest() throws OutOfStoneException {
-		Capstone piece1 = new Capstone(p);
-		Capstone piece2 = new Capstone(p);
+		p.popStone(PieceType.CAPSTONE);
+		p.popStone(PieceType.CAPSTONE);
 	}
 }

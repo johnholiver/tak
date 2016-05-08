@@ -87,13 +87,16 @@ public class Board {
 			for (int x=0; x<boardSize; x++)
 			{
 				List<AbstractPiece> aStack = getSquare(x, y);
-				AbstractPiece piece = aStack.get(aStack.size()-1);
-				if (piece.isFlat())
+				if (!aStack.isEmpty())
 				{
-					if (piece.getOwner().getNumber()==1)
-						flatCounter[0]++;
-					else if (piece.getOwner().getNumber()==2)
-						flatCounter[1]++;
+					AbstractPiece piece = aStack.get(aStack.size()-1);
+					if (piece.isFlat())
+					{
+						if (piece.getOwner().getNumber()==1)
+							flatCounter[0]++;
+						else if (piece.getOwner().getNumber()==2)
+							flatCounter[1]++;
+					}
 				}
 			}
 		}
@@ -129,6 +132,7 @@ public class Board {
 		}
 		
 		//Purge clusters which aren't roads
+		List<List<AbstractPiece>> roadsToPurge = new ArrayList<List<AbstractPiece>>();
 		for (List<AbstractPiece> road : roads)
 		{
 			boolean firstRow = false;
@@ -150,8 +154,9 @@ public class Board {
 			}
 			
 			if (!((firstRow && lastRow) || (firstColumn && lastColumn)))
-				roads.remove(road);
+				roadsToPurge.add(road);
 		}
+		roads.removeAll(roadsToPurge);
 		return roads;
 	}
 	

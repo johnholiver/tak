@@ -14,5 +14,20 @@ public class PlaceCommand extends GameCommand {
 	public PieceType getPieceType() {
 		return pieceType;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (!PlaceCommand.class.isAssignableFrom(obj.getClass())) {
+	        return false;
+	    }
+	    final PlaceCommand other = (PlaceCommand) obj;
+	    if ((this.pieceType == null) ? (other.pieceType != null) : !this.pieceType.equals(other.pieceType)) {
+	        return false;
+	    }
+	    return true && super.equals(obj);
+	}
 
 }
