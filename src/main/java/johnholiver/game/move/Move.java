@@ -25,8 +25,14 @@ public class Move extends AbstractMove {
 	protected void run() {
 		List<AbstractPiece> initialStack = board.getSquare(x, y);
 		List<AbstractPiece> dropStack = new ArrayList<AbstractPiece>();
-		dropStack.addAll(initialStack);
-		initialStack.clear();
+		
+		for (int dropIndex = 0; dropIndex < drop.size(); dropIndex++)
+		{
+			for (int i = 0; i < drop.get(dropIndex); i++)
+			{
+				dropStack.add(0, initialStack.remove(initialStack.size()-1));
+			}
+		}
 		
 		for (int dropIndex = 0; dropIndex < drop.size(); dropIndex++)
 		{
@@ -36,13 +42,14 @@ public class Move extends AbstractMove {
 				piecesToDrop.add(dropStack.remove(0));
 			}
 			
-			int[] nextLocation = getNextStackLocation(x, y, dropIndex);
+			int[] nextLocation = getNextStackLocation(x, y, dropIndex+1);
 			int nextX = nextLocation[0];
 			int nextY = nextLocation[1];
 			
 			List<AbstractPiece> nextStack = board.getSquare(nextX, nextY);
 			if (!nextStack.isEmpty())
 			{
+				//From validate we have guarantee that it will come a capstone on top to flat the standing
 				AbstractPiece topNextStack = nextStack.get(nextStack.size()-1);
 				if (topNextStack.isStanding())
 				{
@@ -66,8 +73,8 @@ public class Move extends AbstractMove {
 			throw new MoveException(x, y, "Initial stack is empty");
 		if (initialStack.get(initialStack.size()-1).getOwner() != player)
 			throw new MoveException(x, y, "Top piece does not belong to player: "+initialStack.get(initialStack.size()-1).getOwner()+"!="+player);
-		if (drop.isEmpty() || drop.size() < 2)
-			throw new MoveException(x, y, "Piece drop order is not valid. Drop order is empty or inferior to inferior to 2 stacks");
+		if (drop.isEmpty())
+			throw new MoveException(x, y, "Piece drop order is not valid. Drop order is empty");
 		
 		//Test dropping exceptions
 		int totalPiecesDroped = 0;
@@ -87,7 +94,7 @@ public class Move extends AbstractMove {
 			//Test Carry limit
 			if (piecesToDrop.size() > board.getSize())
 				throw new MoveException(x, y, "Piece drop order is not valid. Carry limit of "+board.getSize()+" check at drop "+dropIndex);
-			int[] nextLocation = getNextStackLocation(x, y, dropIndex);
+			int[] nextLocation = getNextStackLocation(x, y, dropIndex+1);
 			int nextX = nextLocation[0];
 			int nextY = nextLocation[1];
 			if (nextX < 0 
@@ -99,8 +106,7 @@ public class Move extends AbstractMove {
 			
 			if (piecesToDrop.size() == 0)
 			{
-				if (dropIndex != 0)
-					throw new MoveException(x, y, "Piece drop order is not valid. Dropping 0 pieces at drop "+dropIndex);
+				throw new MoveException(x, y, "Piece drop order is not valid. Dropping 0 pieces at drop "+dropIndex);
 			} else {
 				//Test Insurmountable Pieces
 				List<AbstractPiece> nextStack = board.getSquare(nextX, nextY);
@@ -114,10 +120,6 @@ public class Move extends AbstractMove {
 					}
 				}
 			}
-		}
-		if (totalPiecesDroped != initialStack.size())
-		{
-			throw new MoveException(x, y, "Piece drop order is not valid. Drop order total quantity is inferior to the initial stack");
 		}
 	}
 

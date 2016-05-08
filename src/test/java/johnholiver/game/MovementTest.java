@@ -46,7 +46,6 @@ public class MovementTest {
 		Place move1 = new Place(board, p1, 0, 0,PieceType.FLATSTONE);
 		Place move2 = new Place(board, p2, 0, 1,PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -81,7 +80,6 @@ public class MovementTest {
 	public void moveSimpleTest() throws Exception {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move2 = new Move(board, p1, 0, 0, Direction.UP, drop);
 		board.executeMove(move1);
@@ -105,22 +103,18 @@ public class MovementTest {
 		board.executeMove(move3);
 
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
 		drop.clear();
 		drop.add(1);
-		drop.add(1);
 		Move move5 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move5);
 		drop.clear();
-		drop.add(0);
 		drop.add(1);
 		Move move6 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move6);
 		drop.clear();
-		drop.add(1);
 		drop.add(1);
 		drop.add(1);
 		Move move7 = new Move(board, p1, 2, 0, Direction.UP, drop);
@@ -147,22 +141,18 @@ public class MovementTest {
 		board.executeMove(move3);
 
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
 		drop.clear();
 		drop.add(1);
-		drop.add(1);
 		Move move5 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move5);
 		drop.clear();
-		drop.add(0);
 		drop.add(1);
 		Move move6 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move6);
 		drop.clear();
-		drop.add(0);
 		drop.add(2);
 		drop.add(1);
 		Move move7 = new Move(board, p1, 2, 0, Direction.UP, drop);
@@ -188,12 +178,10 @@ public class MovementTest {
 		board.executeMove(move3);
 
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
 		drop.clear();
-		drop.add(0);
 		drop.add(2);
 		Move move5 = new Move(board, p1, 1, 0, Direction.RIGHT, drop);
 		board.executeMove(move5);
@@ -203,7 +191,6 @@ public class MovementTest {
 	public void moveOutOfBoundsTest() throws Exception {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move2 = new Move(board, p1, 0, 0, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -216,7 +203,6 @@ public class MovementTest {
 		Place move2 = new Place(board, p2, 0, 2, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
 		drop.add(0);
-		drop.add(0);
 		drop.add(1);
 		Move move3 = new Move(board, p2, 0, 2, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -228,7 +214,6 @@ public class MovementTest {
 	public void moveNotOwnerTest() throws Exception {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move2 = new Move(board, p2, 0, 0, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -247,7 +232,6 @@ public class MovementTest {
 			board.executeMove(move2);
 			//Move
 			List<Integer> drop = new ArrayList<Integer>();
-			drop.add(0);
 			drop.add(1);
 			Move move3 = new Move(board, p1, 1, 0, Direction.LEFT, drop);
 			board.executeMove(move3);
@@ -255,7 +239,6 @@ public class MovementTest {
 
 		//Carry Limit
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(board.getSize()+1);
 		Move move4 = new Move(board, p1, 0, 0, Direction.RIGHT, drop);
 		board.executeMove(move4);
@@ -266,7 +249,6 @@ public class MovementTest {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.STANDINGSTONE);
 		Place move2 = new Place(board, p2, 0, 1, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -279,7 +261,6 @@ public class MovementTest {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
 		Place move2 = new Place(board, p2, 0, 1, PieceType.FLATSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -292,7 +273,6 @@ public class MovementTest {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.FLATSTONE);
 		Place move2 = new Place(board, p2, 0, 1, PieceType.CAPSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);
@@ -311,7 +291,6 @@ public class MovementTest {
 		Place move1 = new Place(board, p1, 0, 0, PieceType.CAPSTONE);
 		Place move2 = new Place(board, p2, 0, 1, PieceType.CAPSTONE);
 		List<Integer> drop = new ArrayList<Integer>();
-		drop.add(0);
 		drop.add(1);
 		Move move3 = new Move(board, p2, 0, 1, Direction.DOWN, drop);
 		board.executeMove(move1);

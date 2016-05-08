@@ -173,8 +173,6 @@ public class PTNSyntacticAnalyser {
 		fixedTokenList.addAll(tokenList);
 		if (fixedTokenList.get(fixedTokenList.size()-1).getType()==TokenType.DIRECTION)
 		{
-			fixedTokenList.add(new CountToken('0'));
-			i++;
 			CountToken first = (CountToken)fixedTokenList.get(0);
 			fixedTokenList.add(new CountToken(Character.forDigit(first.getValue(), 10)));
 			i++;

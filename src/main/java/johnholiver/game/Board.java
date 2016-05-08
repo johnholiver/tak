@@ -55,7 +55,7 @@ public class Board {
 	{
 		String boardString = "";
 		int boardSize = getSize();
-		for (int y=0; y<boardSize; y++)
+		for (int y=boardSize-1; y>=0; y--)
 		{
 			List<List<AbstractPiece>> aRow = board.get(y);
 			String rowString = "";

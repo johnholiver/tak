@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import johnholiver.game.command.AbstractCommand;
 import johnholiver.game.command.PlaceCommand;
 import johnholiver.game.exceptions.DrawException;
+import johnholiver.game.notation.ptn.PTNInterface;
 import johnholiver.game.piece.PieceType;
 
 public class WinningTest {
@@ -164,6 +166,62 @@ public class WinningTest {
 		}
 		assertEquals(9, game.getTurn()-1);
 		assertEquals(game.getPlayer1(), winner);
+	}
+	
+	@Test
+	public void fullGame1Test() throws Exception
+	{
+		String ptn 	= "1. e5 e1\n"
+				   	+ "2. c2 c3\n"
+					+ "3. c4 d3\n"
+					+ "4. a4 d4\n"
+					+ "5. b4 b3\n"
+					+ "6. b4- c3<\n"
+					+ "7. e4 c3\n"
+					+ "8. e4< d3+\n"
+					+ "9. c4> c4\n"
+					+ "10. 2d4< c3+\n"
+					+ "11. 2d4< Cc3\n"
+					+ "12. 5c4>23 e3\n"
+					+ "13. c5 e3+\n"
+					+ "14. 2d4> e5-\n"
+					+ "15. Ce3 5e4<212\n"
+					+ "16. e3+ c3+\n"
+					+ "17. Sc3 a3\n"
+					+ "18. 3e4< e4\n"
+					+ "19. 4d4> d3\n"
+					+ "20. c1 d3+\n"
+					+ "21. 5e4< e4\n"
+					+ "22. d1 a1\n"
+					+ "23. a2 b2\n"
+					+ "24. a2- b1\n"
+					+ "25. 2a1> Sa1\n"
+					+ "26. 3b1+ a1+\n"
+					+ "27. 4b2+ a3>\n"
+					+ "28. b5 a5\n"
+					+ "29. d5 e5\n"
+					+ "30. d3 e5<\n"
+					+ "31. c5> Sd2\n"
+					+ "32. e3 5b3-14\n"
+					+ "33. e2\n";
+		PTNInterface gameInterface = new PTNInterface();
+		Game fullGame1 = new Game(5);
+		
+		StringTokenizer tokenizer = new StringTokenizer(ptn);
+		Player winner = null;
+		int turn = 0;
+		while (tokenizer.hasMoreTokens())
+		{
+			String token = tokenizer.nextToken();
+			if (!token.endsWith("."))
+			{
+				turn = fullGame1.getTurn();
+				gameInterface.execute(fullGame1, token);
+				winner = fullGame1.checkWinningConditions();
+			}
+		}
+		assertEquals(65, turn);
+		assertEquals(fullGame1.getPlayer1(), winner);
 	}
 
 }
