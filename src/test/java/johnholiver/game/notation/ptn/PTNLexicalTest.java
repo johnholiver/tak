@@ -15,7 +15,7 @@ import johnholiver.game.notation.ptn.token.DirectionToken;
 import johnholiver.game.notation.ptn.token.MarkToken;
 import johnholiver.game.notation.ptn.token.SquareToken;
 import johnholiver.game.notation.ptn.token.StoneToken;
-import johnholiver.game.notation.ptn.token.Token;
+import johnholiver.game.notation.ptn.token.AbstractToken;
 
 public class PTNLexicalTest {
 	
@@ -29,14 +29,14 @@ public class PTNLexicalTest {
 	
 	@Test
 	public void incompleteFlatPlace() throws LexicalException {
-		List<Token> tokenList = lexical.parse("a1");
+		List<AbstractToken> tokenList = lexical.parse("a1");
 		SquareToken square = new SquareToken("a1");
 		assertEquals(square, tokenList.get(0));
 	}
 	
 	@Test
 	public void fullFlatPlace() throws LexicalException {
-		List<Token> tokenList = lexical.parse("Fa1");
+		List<AbstractToken> tokenList = lexical.parse("Fa1");
 		StoneToken stone = new StoneToken('F');
 		SquareToken square = new SquareToken("a1");
 		assertEquals(stone, tokenList.get(0));
@@ -45,7 +45,7 @@ public class PTNLexicalTest {
 
 	@Test
 	public void fullCapPlace() throws LexicalException {
-		List<Token> tokenList = lexical.parse("Ca1");
+		List<AbstractToken> tokenList = lexical.parse("Ca1");
 		StoneToken stone = new StoneToken('C');
 		SquareToken square = new SquareToken("a1");
 		assertEquals(stone, tokenList.get(0));
@@ -54,7 +54,7 @@ public class PTNLexicalTest {
 	
 	@Test
 	public void incompleteMove() throws LexicalException {
-		List<Token> tokenList = lexical.parse("a1>");
+		List<AbstractToken> tokenList = lexical.parse("a1>");
 		SquareToken square = new SquareToken("a1");
 		DirectionToken direction = new DirectionToken('>');
 		assertEquals(square, tokenList.get(0));
@@ -63,7 +63,7 @@ public class PTNLexicalTest {
 	
 	@Test
 	public void fullMove() throws LexicalException {
-		List<Token> tokenList = lexical.parse("4a1>211S");
+		List<AbstractToken> tokenList = lexical.parse("4a1>211S");
 		CountToken count = new CountToken('4');
 		SquareToken square = new SquareToken("a1");
 		DirectionToken direction = new DirectionToken('>');
@@ -82,7 +82,7 @@ public class PTNLexicalTest {
 	
 	@Test
 	public void tak() throws LexicalException {
-		List<Token> tokenList = lexical.parse("a1'");
+		List<AbstractToken> tokenList = lexical.parse("a1'");
 		SquareToken square = new SquareToken("a1");
 		MarkToken mark = new MarkToken('\'');
 		assertEquals(square, tokenList.get(0));
@@ -91,7 +91,7 @@ public class PTNLexicalTest {
 	
 	@Test
 	public void marks() throws LexicalException {
-		List<Token> tokenList = lexical.parse("a1'!?{wow}");
+		List<AbstractToken> tokenList = lexical.parse("a1'!?{wow}");
 		SquareToken square = new SquareToken("a1");
 		MarkToken mark1 = new MarkToken('\'');
 		MarkToken mark2 = new MarkToken('!');
@@ -106,6 +106,6 @@ public class PTNLexicalTest {
 	
 	@Test (expected = LexicalException.class)
 	public void marksException() throws LexicalException {
-		List<Token> tokenList = lexical.parse("a1'!?(wow)");
+		List<AbstractToken> tokenList = lexical.parse("a1'!?(wow)");
 	}
 }

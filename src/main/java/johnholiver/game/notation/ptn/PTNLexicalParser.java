@@ -10,13 +10,13 @@ import johnholiver.game.notation.ptn.token.DirectionToken;
 import johnholiver.game.notation.ptn.token.MarkToken;
 import johnholiver.game.notation.ptn.token.SquareToken;
 import johnholiver.game.notation.ptn.token.StoneToken;
-import johnholiver.game.notation.ptn.token.Token;
+import johnholiver.game.notation.ptn.token.AbstractToken;
 
 public class PTNLexicalParser {
 	private String input;
 	private int i;
 
-	public List<Token> parse(String input) throws LexicalException {
+	public List<AbstractToken> parse(String input) throws LexicalException {
 		this.input = input;
 		i = 0;
 		return initialState();
@@ -28,8 +28,8 @@ public class PTNLexicalParser {
 		return c;
 	}
 
-	private List<Token> initialState() throws LexicalException {
-		List<Token> tokenList = new ArrayList<Token>();
+	private List<AbstractToken> initialState() throws LexicalException {
+		List<AbstractToken> tokenList = new ArrayList<AbstractToken>();
 		for (;i < this.input.length();)
 		{
 			char c = consumeChar();
@@ -80,7 +80,7 @@ public class PTNLexicalParser {
 		return tokenList;
 	}
 
-	private Token getSquareToken(char x) throws LexicalException {
+	private AbstractToken getSquareToken(char x) throws LexicalException {
 		char y = consumeChar();
 		switch (y) {
 		case '1':
@@ -97,7 +97,7 @@ public class PTNLexicalParser {
 		}
 	}
 
-	private Token getCommentToken() throws LexicalException {
+	private AbstractToken getCommentToken() throws LexicalException {
 		String comment="{";
 		for( ; i < input.length(); ) 
 		{

@@ -1,6 +1,6 @@
 package johnholiver.game.command;
 
-public class InfoCommand extends Command {
+public class InfoCommand extends AbstractCommand {
 
 	private String content;
 	

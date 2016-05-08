@@ -1,6 +1,6 @@
 package johnholiver.game.command;
 
-public abstract class Command {
+public abstract class AbstractCommand {
 	public static enum CommandType {
         GAME_PLACE, 
         GAME_MOVE, 
@@ -12,9 +12,9 @@ public abstract class Command {
 	
 	private CommandType type;
 
-	protected Command() { }
+	protected AbstractCommand() { }
 	
-	protected Command(CommandType type)
+	protected AbstractCommand(CommandType type)
 	{
 		this.type = type;
 	}

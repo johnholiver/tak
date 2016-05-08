@@ -3,10 +3,10 @@ package johnholiver.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import johnholiver.game.command.Command;
+import johnholiver.game.command.AbstractCommand;
 import johnholiver.game.command.MoveCommand;
 import johnholiver.game.command.PlaceCommand;
-import johnholiver.game.command.Command.CommandType;
+import johnholiver.game.command.AbstractCommand.CommandType;
 import johnholiver.game.exceptions.DrawException;
 import johnholiver.game.exceptions.OutOfStoneException;
 import johnholiver.game.move.AbstractMove;
@@ -68,7 +68,7 @@ public class Game {
 		return board;
 	}
 	
-	public boolean doCommand(Command cmd) throws Exception
+	public boolean doCommand(AbstractCommand cmd) throws Exception
 	{
 		switch (cmd.getType()) {
 		case GAME_PLACE:

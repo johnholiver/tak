@@ -1,6 +1,6 @@
 package johnholiver.game.notation.ptn.token;
 
-public abstract class Token {
+public abstract class AbstractToken {
 	public static enum TokenType {
         STONE, SQUARE, DIRECTION, COUNT, MARK, COMMENT;
     }
@@ -8,7 +8,7 @@ public abstract class Token {
 	private TokenType type;
 	protected String content;
 	
-	protected Token(TokenType type, String content)
+	protected AbstractToken(TokenType type, String content)
 	{
 		this.setType(type);
 		this.setContent(content);
@@ -26,10 +26,10 @@ public abstract class Token {
 	    if (obj == null) {
 	        return false;
 	    }
-	    if (!Token.class.isAssignableFrom(obj.getClass())) {
+	    if (!AbstractToken.class.isAssignableFrom(obj.getClass())) {
 	        return false;
 	    }
-	    final Token other = (Token) obj;
+	    final AbstractToken other = (AbstractToken) obj;
 	    if ((this.type == null) ? (other.type != null) : !this.type.equals(other.type)) {
 	        return false;
 	    }

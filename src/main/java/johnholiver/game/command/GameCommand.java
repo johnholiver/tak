@@ -1,8 +1,8 @@
 package johnholiver.game.command;
 
-import johnholiver.game.command.Command.CommandType;
+import johnholiver.game.command.AbstractCommand.CommandType;
 
-public abstract class GameCommand extends Command {
+public abstract class GameCommand extends AbstractCommand {
 
 	private int x;
 	private int y;

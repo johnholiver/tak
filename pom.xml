@@ -5,4 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Tak Game Implementation</name>
   <description>This is an implementatio in Java of the abstract strategy game called Tak. Further information can be found at: http://cheapass.com/games/tak</description>
+  <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 </project>

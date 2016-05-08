@@ -1,6 +1,6 @@
 package johnholiver.game.notation.ptn.token;
 
-public class SquareToken extends Token {
+public class SquareToken extends AbstractToken {
 
 	public SquareToken(String c) {
 		super(TokenType.SQUARE, String.valueOf(c));

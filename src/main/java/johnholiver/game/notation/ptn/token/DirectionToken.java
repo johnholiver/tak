@@ -2,7 +2,7 @@ package johnholiver.game.notation.ptn.token;
 
 import johnholiver.game.move.Direction;
 
-public class DirectionToken extends Token {
+public class DirectionToken extends AbstractToken {
 
 	public DirectionToken(char c) {
 		super(TokenType.DIRECTION, String.valueOf(c));

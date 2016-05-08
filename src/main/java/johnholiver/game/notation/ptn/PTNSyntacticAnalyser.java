@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import johnholiver.game.command.Command;
+import johnholiver.game.command.AbstractCommand;
 import johnholiver.game.command.InfoCommand;
 import johnholiver.game.command.MoveCommand;
 import johnholiver.game.command.PlaceCommand;
@@ -13,18 +13,18 @@ import johnholiver.game.notation.ptn.token.CountToken;
 import johnholiver.game.notation.ptn.token.DirectionToken;
 import johnholiver.game.notation.ptn.token.SquareToken;
 import johnholiver.game.notation.ptn.token.StoneToken;
-import johnholiver.game.notation.ptn.token.Token;
-import johnholiver.game.notation.ptn.token.Token.TokenType;
+import johnholiver.game.notation.ptn.token.AbstractToken;
+import johnholiver.game.notation.ptn.token.AbstractToken.TokenType;
 
 public class PTNSyntacticAnalyser {
 
-	private List<Token> analizedTokenList;
+	private List<AbstractToken> analizedTokenList;
 	private int i;
-	private Token lookAhead;
-	private List<Command> commands;
+	private AbstractToken lookAhead;
+	private List<AbstractCommand> commands;
 	
-	public List<Command> analyze(List<Token> tokenList) throws SyntacticException {
-		commands = new ArrayList<Command>();
+	public List<AbstractCommand> analyze(List<AbstractToken> tokenList) throws SyntacticException {
+		commands = new ArrayList<AbstractCommand>();
 		this.analizedTokenList = tokenList;
 		i = 0;
 		lookAhead = analizedTokenList.get(i);
@@ -144,9 +144,9 @@ public class PTNSyntacticAnalyser {
 		markInitialState();
 	}
 
-	private List<Token> fixPlace(List<Token> tokenList)
+	private List<AbstractToken> fixPlace(List<AbstractToken> tokenList)
 	{
-		List<Token> fixedTokenList = new ArrayList<Token>();
+		List<AbstractToken> fixedTokenList = new ArrayList<AbstractToken>();
 		fixedTokenList.add(new StoneToken('F'));
 		fixedTokenList.addAll(tokenList);
 		return fixedTokenList;
@@ -158,9 +158,9 @@ public class PTNSyntacticAnalyser {
 		commands.add(new PlaceCommand(square.getX(), square.getY(), stone.getContent()));
 	}
 	
-	private List<Token> fixMove(List<Token> tokenList)
+	private List<AbstractToken> fixMove(List<AbstractToken> tokenList)
 	{
-		List<Token> fixedTokenList = new ArrayList<Token>();
+		List<AbstractToken> fixedTokenList = new ArrayList<AbstractToken>();
 		if (tokenList.get(0).getType()==TokenType.SQUARE)
 			fixedTokenList.add(new CountToken('1'));
 		fixedTokenList.addAll(tokenList);

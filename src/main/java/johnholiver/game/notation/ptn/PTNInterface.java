@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import johnholiver.game.Game;
-import johnholiver.game.command.Command;
-import johnholiver.game.notation.ptn.token.Token;
+import johnholiver.game.command.AbstractCommand;
+import johnholiver.game.notation.ptn.token.AbstractToken;
 
 public class PTNInterface {
 	PTNLexicalParser lexical;
@@ -21,9 +21,9 @@ public class PTNInterface {
 		StringTokenizer tokenizer = new StringTokenizer(input);
 		while(tokenizer.hasMoreElements())
 		{
-			List<Token> tokenList = lexical.parse(tokenizer.nextToken());
-			List<Command> commands = syntactic.analyze(tokenList);
-			for (Command cmd : commands)
+			List<AbstractToken> tokenList = lexical.parse(tokenizer.nextToken());
+			List<AbstractCommand> commands = syntactic.analyze(tokenList);
+			for (AbstractCommand cmd : commands)
 			{
 				activeGame.doCommand(cmd);
 			}
