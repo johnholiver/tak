@@ -11,6 +11,7 @@ import johnholiver.tak.engine.move.AbstractMove;
 import johnholiver.tak.engine.move.Move;
 import johnholiver.tak.engine.move.Place;
 import johnholiver.tak.engine.piece.AbstractPiece;
+import johnholiver.tak.engine.player.Player;
 
 public class Game {
 

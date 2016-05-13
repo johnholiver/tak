@@ -1,6 +1,6 @@
 package johnholiver.tak.engine.piece;
 
-import johnholiver.tak.engine.Player;
+import johnholiver.tak.engine.player.Player;
 
 public class StandingStone extends AbstractStone {
 

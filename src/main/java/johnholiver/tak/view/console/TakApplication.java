@@ -3,7 +3,7 @@ package johnholiver.tak.view.console;
 import java.util.Scanner;
 
 import johnholiver.tak.engine.Game;
-import johnholiver.tak.engine.Player;
+import johnholiver.tak.engine.player.Player;
 import johnholiver.tak.view.console.ptn.PTNInterface;
 
 /**

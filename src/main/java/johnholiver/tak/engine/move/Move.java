@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import johnholiver.tak.engine.Board;
-import johnholiver.tak.engine.Player;
 import johnholiver.tak.engine.move.exceptions.MoveException;
 import johnholiver.tak.engine.piece.AbstractPiece;
 import johnholiver.tak.engine.piece.FlatStone;
+import johnholiver.tak.engine.player.Player;
 
 
 public class Move extends AbstractMove {

@@ -1,11 +1,11 @@
-package johnholiver.tak.engine;
+package johnholiver.tak.engine.player;
 
-import johnholiver.tak.engine.exceptions.OutOfStoneException;
 import johnholiver.tak.engine.piece.AbstractPiece;
 import johnholiver.tak.engine.piece.Capstone;
 import johnholiver.tak.engine.piece.FlatStone;
 import johnholiver.tak.engine.piece.PieceType;
 import johnholiver.tak.engine.piece.StandingStone;
+import johnholiver.tak.engine.player.exceptions.OutOfStoneException;
 
 public class Player {
 	

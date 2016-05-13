@@ -3,11 +3,11 @@ package johnholiver.tak.engine.move;
 import java.util.List;
 
 import johnholiver.tak.engine.Board;
-import johnholiver.tak.engine.Player;
-import johnholiver.tak.engine.exceptions.OutOfStoneException;
 import johnholiver.tak.engine.move.exceptions.PlaceException;
 import johnholiver.tak.engine.piece.AbstractPiece;
 import johnholiver.tak.engine.piece.PieceType;
+import johnholiver.tak.engine.player.Player;
+import johnholiver.tak.engine.player.exceptions.OutOfStoneException;
 
 public class Place extends AbstractMove {
 

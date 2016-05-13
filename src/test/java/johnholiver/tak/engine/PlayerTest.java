@@ -3,9 +3,9 @@ package johnholiver.tak.engine;
 import org.junit.Before;
 import org.junit.Test;
 
-import johnholiver.tak.engine.Player;
-import johnholiver.tak.engine.exceptions.OutOfStoneException;
 import johnholiver.tak.engine.piece.PieceType;
+import johnholiver.tak.engine.player.Player;
+import johnholiver.tak.engine.player.exceptions.OutOfStoneException;
 
 public class PlayerTest {
 

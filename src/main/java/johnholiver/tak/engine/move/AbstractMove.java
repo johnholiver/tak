@@ -1,7 +1,7 @@
 package johnholiver.tak.engine.move;
 
 import johnholiver.tak.engine.Board;
-import johnholiver.tak.engine.Player;
+import johnholiver.tak.engine.player.Player;
 
 public abstract class AbstractMove 
 {

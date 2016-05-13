@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import johnholiver.tak.engine.Board;
-import johnholiver.tak.engine.Player;
 import johnholiver.tak.engine.move.Direction;
 import johnholiver.tak.engine.move.Move;
 import johnholiver.tak.engine.move.Place;
@@ -20,6 +19,7 @@ import johnholiver.tak.engine.piece.AbstractPiece;
 import johnholiver.tak.engine.piece.Capstone;
 import johnholiver.tak.engine.piece.FlatStone;
 import johnholiver.tak.engine.piece.PieceType;
+import johnholiver.tak.engine.player.Player;
 
 public class MovementTest {
 

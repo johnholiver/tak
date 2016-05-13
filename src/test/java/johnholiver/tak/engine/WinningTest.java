@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import johnholiver.tak.engine.Game;
-import johnholiver.tak.engine.Player;
 import johnholiver.tak.engine.command.AbstractCommand;
 import johnholiver.tak.engine.command.PlaceCommand;
 import johnholiver.tak.engine.exceptions.DrawException;
 import johnholiver.tak.engine.piece.PieceType;
+import johnholiver.tak.engine.player.Player;
 import johnholiver.tak.view.console.ptn.PTNInterface;
 
 public class WinningTest {
